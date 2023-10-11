@@ -113,7 +113,7 @@ img {
 }
 
 /*========== Variables Dark theme ==========*/
-body.dark-theme {
+.dark-theme {
   --first-color: hsl(14, 80%, 50%);
   --black-color: hsl(0, 0%, 18%);
   --black-color-light: hsl(0, 0%, 30%);
