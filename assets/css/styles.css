@@ -4,7 +4,7 @@
 /*=============== VARIABLES CSS ===============*/
 :root {
   --header-height: 3.5rem;
-
+  
   /*========== Colors ==========*/
   /*Color mode HSL(hue, saturation, lightness)*/
   --first-color: hsl(14, 98%, 50%);
@@ -37,7 +37,12 @@
   /*========== z index ==========*/
   --z-tooltip: 10;
   --z-fixed: 100;
+
+
 }
+
+
+
 
 
 /* example use of CSS custom properties */
