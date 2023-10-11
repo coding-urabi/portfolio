@@ -40,7 +40,6 @@
 }
 
 
-
 /* example use of CSS custom properties */
 body {
   background-color: var(--color-bg);
