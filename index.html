@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-   <html lang="en">
+   <html>
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,20 +9,31 @@
 
       <!--=============== REMIXICONS ===============-->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.4.0/remixicon.css" crossorigin="">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="" >
 
       <!--=============== CSS ===============-->
       <link rel="stylesheet" href="assets/css/styles.css">
 
-      <title>Urabi - Home</title>
+      <link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+
+
+      
+
+    
+
+
+
+      <title>Urabi</title>
       <script src="https://unpkg.com/scrollreveal"></script>
    </head>
    <body>
+
       <!--==================== HEADER ====================-->
       <header class="header" id="header">
          <nav class="nav container">
             <a href="#" class="nav__logo">
                 <span class="nav__logo-circle">U</span>
-                <span class="nav__logo-name">Urabi Lot.</span>
+                <span class="nav__logo-name">Urabi Dev.</span>
               </a>
 
               <div class="nav__menu" id="nav-menu">
@@ -41,13 +52,14 @@
 
                     </li>
 
+
                     <li class="nav__item">
-                        <a href="#projects" class="nav__link">Projects</a>
+                        <a href="#projects" class="nav__link" >Projects</a>
 
                     </li>
 
                     <li class="nav__item">
-                        <a href="#contact" class="nav__link nav__link-button">Contact Me</a>
+                        <a href="Ahmad.pdf" class="nav__link nav__link-button">Download Cv</a>
                     </li>
                 </ul>
 
@@ -62,15 +74,22 @@
                 <!-- Theme button-->
                 <i class="ri-moon-line change-theme" id="btnIcon"></i>
                 
-                
+            
                 <!-- Toggle button-->
                 <div class="nav__toggle" id="nav-toggle">
                     <i class="ri-menu-4-line"></i>
                 </div>
               </div>
 
+              
+              
+           </div>
+
+          
+          
+
          </nav>
-         
+        
       </header>
 
       <!--==================== MAIN ====================-->
@@ -79,7 +98,7 @@
          <section class="home section" id="home">
             <div class="home__container container grid">
                 <h1 class="home__name">
-                    Urabi Lot
+                    Urabi Dev
                 </h1>
 
                 <div class="home__perfil">
@@ -170,7 +189,7 @@
 
                     <div class="about__buttons">
                         <a href="#contact" class="button">
-                            <i class="ri-send-plane-line"></i> Contact Me
+                            <i class="ri-send-plane-line"></i>Contact Me
                         </a>
 
                         <a href="https://www.linkedin.com/" target="_blank" class="button__ghost">
@@ -757,6 +776,108 @@
             </div>
          </section>
 
+         <section class="container testimonials__container mySwiper">
+            <h2 class="section__title-1">Testimonials</h2>
+            <div class="swiper-wrapper">
+                <article class="testimonial swiper-slide">
+                    <div class="avatar">
+                        <img src="./assets/img/avatar1.jpg">
+                    </div>
+                        <div class="testimonial__info">
+                            <h5>Diana Ayi</h5>
+                            <small>Student</small>
+        
+                        </div>
+                        <div class="testimonial__body">
+                            <p>
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta est nostrum quae optio non, id quis fuga quisquam tempore ipsa exercitationem temporibus unde quo animi consectetur deleniti autem quaerat culpa.
+                            </p>
+                        </div>
+        
+                   
+                </article>
+        
+        
+        
+                <article class="testimonial swiper-slide">
+                    <div class="avatar">
+                        <img src="./assets/img/avatar2.jpg">
+                    </div>
+                        <div class="testimonial__info">
+                            <h5>Ahmad Orabi</h5>
+                            <small>Web Developer</small>
+        
+                        </div>
+                        <div class="testimonial__body">
+                            <p>
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta est nostrum quae optio non, id quis fuga quisquam tempore ipsa exercitationem temporibus unde quo animi consectetur deleniti autem quaerat culpa.
+                            </p>
+                        </div>
+        
+                  
+                </article>
+        
+        
+            
+                <article class="testimonial swiper-slide">
+                    <div class="avatar">
+                        <img src="./assets/img/avatar3.jpg">
+                    </div>
+                        <div class="testimonial__info">
+                            <h5>Yousef Wael</h5>
+                            <small>Student</small>
+        
+                        </div>
+                        <div class="testimonial__body">
+                            <p>
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta est nostrum quae optio non, id quis fuga quisquam tempore ipsa exercitationem temporibus unde quo animi consectetur deleniti autem quaerat culpa.
+                            </p>
+                        </div>
+        
+                   
+                </article>
+        
+        
+                <article class="testimonial swiper-slide">
+                    <div class="avatar">
+                        <img src="./assets/img/avatar4.jpg">
+                    </div>
+                        <div class="testimonial__info">
+                            <h5>Noor Taj</h5>
+                            <small>Student</small>
+        
+                        </div>
+                        <div class="testimonial__body">
+                            <p>
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta est nostrum quae optio non, id quis fuga quisquam tempore ipsa exercitationem temporibus unde quo animi consectetur deleniti autem quaerat culpa.
+                            </p>
+                        </div>
+        
+                </article>
+        
+        
+                <article class="testimonial swiper-slide">
+                    <div class="avatar">
+                        <img src="./assets/img/avatar5.jpg">
+                    </div>
+                        <div class="testimonial__info">
+                            <h5>Jude Mohd</h5>
+                            <small>Student</small>
+        
+                        </div>
+                        <div class="testimonial__body">
+                            <p>
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta est nostrum quae optio non, id quis fuga quisquam tempore ipsa exercitationem temporibus unde quo animi consectetur deleniti autem quaerat culpa.
+                            </p>
+                        </div>
+        
+                
+                </article>
+              
+            </div>
+            <div class="swiper-pagination"></div>
+        </section>
+
          <!--==================== CONTACT ====================-->
          <section class="contact section" id="contact">
             <div class="contact__container grid">
@@ -877,6 +998,10 @@
 
       </footer>
 
+
+      
+
+
       <!--========== SCROLL UP ==========-->
       <a href="#" class="scrollup" id="scroll-up">
         <i class="ri-arrow-up-s-line"></i>
@@ -905,6 +1030,8 @@
       <!--=============== MAIN JS ===============-->
       <script src="assets/js/main.js"></script>
 
+
+      <!--=============== Da ===============-->
       <script>
         let btn = document.getElementById("btn");
         let btnIcon = document.getElementById("btnIcon");
@@ -920,5 +1047,26 @@
             }
         }
       </script>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+<script>
+    var swiper = new Swiper(".mySwiper", {
+    slidesPerView: 1,
+    spaceBetween: 30,
+    pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+    },
+    //when window width is >= 600px
+    breakpoints: {
+      600: {
+          slidesPerView: 2,
+      }
+    }
+  });
+</script>
+
+
    </body>
 </html>
