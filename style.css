@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+:root { 
+    --primary-color: #00f0ff; 
+    --background-color: #0f2027;
+}
+
+body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background-color: var(--background-color);
+    overflow: hidden;
+}
+
+/* === 1. تصميم شاشة البداية === */
+#splash-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    z-index: 9999; display: flex; justify-content: center; align-items: center; text-align: center;
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(0%);
+}
+#splash-screen.slide-out { transform: translateX(-100%); }
+.ai-brain-container { margin-bottom: 25px; } .ai-brain-svg { width: 120px; height: 120px; } .ai-brain-path { fill: none; stroke: var(--primary-color); stroke-width: 2; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: draw-brain 2s ease-out forwards; } @keyframes draw-brain { to { stroke-dashoffset: 0; } } .ai-brain-node { fill: var(--primary-color); opacity: 0; animation: pulse-node 1.5s infinite ease-in-out, fade-in-node 1s 1.5s forwards; } .ai-brain-node:nth-of-type(2) { animation-delay: 1.6s, 1.6s; } .ai-brain-node:nth-of-type(3) { animation-delay: 1.7s, 1.7s; } .ai-brain-node:nth-of-type(4) { animation-delay: 1.8s, 1.8s; } .ai-brain-node:nth-of-type(5) { animation-delay: 1.9s, 1.9s; } @keyframes fade-in-node { to { opacity: 1; } } @keyframes pulse-node { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } } #splash-text { font-size: 2rem; color: #fff; font-weight: 700; text-shadow: 0 0 8px rgba(0, 240, 255, 0.7); min-height: 80px; padding: 0 15px; } #splash-text::after { content: '|'; color: var(--primary-color); animation: blink 0.7s infinite; } @keyframes blink { 50% { opacity: 0; } }
+
+/* === 2. تصميم المحتوى الرئيسي === */
+#main-content {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    position: absolute; top: 0; left: 0; width: 100%; min-height: 100vh;
+    color: #ffffff; display: flex; flex-direction: column; justify-content: center;
+    align-items: center; text-align: center; padding: 20px; box-sizing: border-box;
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(100%);
+}
+#main-content.slide-in { transform: translateX(0%); }
+
+/* تنسيقات المحتوى الرئيسي (العداد، النموذج، ...إلخ) */
+.main-icon { width: 120px; margin-bottom: 20px; animation: float 3s ease-in-out infinite; } @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.main-h1 { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; text-shadow: 0 0 10px var(--primary-color); }
+.main-p { font-size: 1.2rem; max-width: 600px; color: #ccefff; margin-bottom: 30px; line-height: 1.6; }
+#countdown { display: flex; gap: 15px; margin-bottom: 40px; }
+.time-unit { background: rgba(0, 0, 0, 0.2); padding: 10px 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); min-width: 60px; }
+.time-unit span { display: block; font-size: 2rem; font-weight: 700; color: var(--primary-color); }
+.time-unit small { font-size: 0.8rem; color: #ccefff; }
+.subscribe-form { display: flex; justify-content: center; width: 100%; max-width: 450px; margin-bottom: 30px; border-radius: 50px; border: 1px solid var(--primary-color); overflow: hidden; }
+.subscribe-form input { border: none; padding: 15px 20px; font-family: 'Cairo', sans-serif; font-size: 1rem; background-color: rgba(255, 255, 255, 0.1); color: #fff; flex-grow: 1; outline: none; }
+.subscribe-form button { border: none; padding: 15px 25px; font-family: 'Cairo', sans-serif; font-size: 1rem; font-weight: 700; background-color: var(--primary-color); color: #0f2027; cursor: pointer; transition: background-color 0.3s ease; }
+.social-links { display: flex; gap: 20px; }
+.social-links svg { width: 30px; height: 30px; fill: #ccefff; transition: fill 0.3s; }
+.social-links a:hover svg { fill: var(--primary-color); }
+footer { padding-top: 30px; font-size: 0.9rem; color: #aaa; }
+.modal-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; padding: 15px; box-sizing: border-box; }
+.modal-content { background: linear-gradient(145deg, #203a43, #2c5364); border: 1px solid #00f0ff; margin: auto; padding: 30px; border-radius: 10px; width: 100%; max-width: 400px; text-align: center; animation: zoomIn 0.4s ease-out; }
+@keyframes zoomIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-content h4 { color: #ffffff; font-size: 1.5rem; margin: 15px 0 10px 0; }
+.modal-button { background-color: var(--primary-color); color: #0f2027; border: none; padding: 12px 30px; border-radius: 50px; font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; }
+
+
+/* === 3. قسم التجاوب مع جميع الأجهزة (Responsive) === */
+@media (max-width: 600px) {
+    /* تصغير الخطوط */
+    #splash-text { font-size: 1.5rem; }
+    .main-h1 { font-size: 2rem; }
+    .main-p { font-size: 1rem; }
+
+    /* تعديل حجم أيقونة الموقع الرئيسية */
+    .main-icon { width: 100px; }
+
+    /* تعديل العداد التنازلي */
+    #countdown { gap: 8px; }
+    .time-unit { padding: 8px; min-width: 50px; }
+    .time-unit span { font-size: 1.5rem; }
+    .time-unit small { font-size: 0.7rem; }
+
+    /* تعديل نموذج الاشتراك */
+    .subscribe-form {
+        flex-direction: column; /* جعل الحقل والزر بشكل عمودي */
+        border: none;
+        background: none;
+        gap: 10px; /* إضافة مسافة بين الحقل والزر */
+        max-width: 320px;
+    }
+    .subscribe-form input {
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid var(--primary-color);
+    }
+    .subscribe-form button {
+        border-radius: 8px;
+    }
+
+    .footer-copyright p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+}
