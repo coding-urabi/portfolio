@@ -1,63 +1,1843 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css">
-    <title>المهندس أحمد عرابي</title>
-</head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ahmad Urabi | AI Engineer & Educator</title>
+<meta name="description" content="Ahmad Urabi helps entrepreneurs and business owners transform their work using Artificial Intelligence systems, automation, and smart workflows." />
 
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+/* =====================================================
+   DESIGN SYSTEM — Brand: Deep Crimson Red
+===================================================== */
+:root {
+  /* Brand Colors extracted from Ahmad's photo */
+  --bg-primary:    #080508;        /* near-black base             */
+  --bg-secondary:  #100810;        /* slightly lighter base        */
+  --bg-card:       rgba(20,8,10,0.78);
+
+  --red-brand:     #C41230;        /* primary crimson from photo   */
+  --red-deep:      #8B0D22;        /* deeper shade                 */
+  --red-glow:      #E8192F;        /* brighter glow variant        */
+  --red-soft:      rgba(196,18,48,0.18);
+
+  --amber:         #E8853A;        /* warm rim-light from photo    */
+  --amber-soft:    rgba(232,133,58,0.15);
+
+  --white:         #ffffff;
+  --white-80:      rgba(255,255,255,0.82);
+  --white-60:      rgba(255,255,255,0.62);
+  --white-30:      rgba(255,255,255,0.28);
+  --white-10:      rgba(255,255,255,0.07);
+  --white-05:      rgba(255,255,255,0.04);
+
+  --border-brand:  rgba(196,18,48,0.32);
+  --border-subtle: rgba(255,255,255,0.07);
+  --border-amber:  rgba(232,133,58,0.22);
+
+  /* Gradients */
+  --grad-brand:    linear-gradient(135deg, #C41230 0%, #E8192F 60%, #E8853A 100%);
+  --grad-dark:     linear-gradient(135deg, #1a0810 0%, #0d0508 100%);
+  --grad-card:     linear-gradient(135deg, rgba(196,18,48,0.06), rgba(232,133,58,0.03));
+  --grad-hero:     radial-gradient(ellipse at 60% 40%, rgba(196,18,48,0.22) 0%, transparent 65%),
+                   radial-gradient(ellipse at 30% 80%, rgba(139,13,34,0.15) 0%, transparent 50%);
+
+  /* Type */
+  --font-en: 'Space Grotesk','Inter',sans-serif;
+  --font-ar: 'Cairo',sans-serif;
+
+  /* Motion */
+  --ease: cubic-bezier(0.23,1,0.32,1);
+  --transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+
+  /* Shadows */
+  --shadow-brand: 0 0 40px rgba(196,18,48,0.25);
+  --shadow-card:  0 20px 60px rgba(0,0,0,0.6);
+  --shadow-amber: 0 0 30px rgba(232,133,58,0.2);
+
+  /* Shapes */
+  --radius-sm:   12px;
+  --radius-lg:   20px;
+  --radius-xl:   28px;
+  --radius-pill: 100px;
+}
+
+/* ===== RESET ===== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%;}
+body{
+  background:var(--bg-primary);
+  color:var(--white);
+  font-family:var(--font-en);
+  overflow-x:hidden;
+  max-width:100%;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+body.ar{font-family:var(--font-ar);direction:rtl;text-align:right;}
+
+/* Language visibility */
+.lang-en{display:inline;}
+.lang-ar{display:none;}
+body.ar .lang-en{display:none;}
+body.ar .lang-ar{display:inline;}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg-primary);}
+::-webkit-scrollbar-thumb{background:var(--red-brand);border-radius:2px;}
+
+/* ===== CANVAS ===== */
+#neural-canvas{
+  position:fixed;top:0;left:0;
+  width:100%;height:100%;
+  z-index:0;pointer-events:none;
+}
+
+/* ===== CURSOR GLOW ===== */
+.cursor-glow{
+  position:fixed;
+  width:340px;height:340px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(196,18,48,0.055),transparent 70%);
+  pointer-events:none;z-index:0;
+  transform:translate(-50%,-50%);
+}
+
+/* ===== GRADIENT LINE ===== */
+.gradient-line{
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(196,18,48,0.4),rgba(232,133,58,0.2),transparent);
+  position:relative;z-index:1;
+}
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:16px 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(8,5,8,0.5);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border-bottom:1px solid var(--border-subtle);
+  transition:var(--transition);
+}
+nav.scrolled{
+  background:rgba(8,5,8,0.96);
+  box-shadow:0 4px 40px rgba(0,0,0,0.6);
+}
+body.ar nav{flex-direction:row-reverse;}
+
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+  cursor:pointer;
+}
+.nav-logo-mark{
+  width:32px;height:32px;
+  background:var(--grad-brand);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-weight:800;color:var(--white);
+  box-shadow:0 0 16px rgba(196,18,48,0.4);
+  flex-shrink:0;
+}
+.nav-logo-text{
+  font-size:1.2rem;font-weight:700;letter-spacing:-0.3px;
+  color:var(--white);
+}
+.nav-logo-text span{
+  background:var(--grad-brand);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.nav-links{display:flex;align-items:center;gap:26px;list-style:none;}
+body.ar .nav-links{flex-direction:row-reverse;}
+.nav-links a{
+  color:var(--white-60);text-decoration:none;
+  font-size:0.87rem;font-weight:500;
+  transition:var(--transition);position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:2px;background:var(--red-brand);
+  transition:width .3s ease;border-radius:2px;
+}
+.nav-links a:hover{color:var(--white);}
+.nav-links a:hover::after{width:100%;}
+
+.nav-right{display:flex;align-items:center;gap:12px;}
+
+/* Language Toggle */
+.lang-toggle{
+  display:flex;align-items:center;
+  background:var(--white-10);
+  border:1px solid var(--border-brand);
+  border-radius:var(--radius-pill);
+  padding:3px;gap:2px;
+}
+.lang-btn{
+  padding:5px 13px;border-radius:var(--radius-pill);
+  font-size:0.74rem;font-weight:700;letter-spacing:0.8px;
+  color:var(--white-60);border:none;background:transparent;
+  cursor:pointer;transition:var(--transition);font-family:inherit;
+}
+.lang-btn.active{
+  background:var(--grad-brand);color:var(--white);
+  box-shadow:0 0 16px rgba(196,18,48,0.5);
+}
+
+.nav-cta{
+  padding:9px 22px;
+  background:var(--grad-brand);
+  color:var(--white);border:none;
+  border-radius:var(--radius-pill);
+  font-size:0.83rem;font-weight:600;
+  cursor:pointer;font-family:inherit;
+  transition:var(--transition);
+  box-shadow:0 0 24px rgba(196,18,48,0.35);
+  white-space:nowrap;
+}
+.nav-cta:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 44px rgba(196,18,48,0.6);
+}
+
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--white);border-radius:2px;transition:var(--transition);}
+
+/* Mobile Menu */
+.mobile-menu{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(8,5,8,0.98);backdrop-filter:blur(20px);
+  flex-direction:column;align-items:center;justify-content:center;gap:28px;
+}
+.mobile-menu.open{display:flex;}
+.mobile-menu-close{
+  position:absolute;top:24px;right:24px;
+  font-size:1.4rem;color:var(--white);cursor:pointer;background:none;border:none;
+}
+body.ar .mobile-menu-close{right:auto;left:24px;}
+.mobile-menu a{font-size:1.3rem;font-weight:600;color:var(--white);text-decoration:none;transition:var(--transition);}
+.mobile-menu a:hover{color:var(--red-glow);}
+
+/* =====================================================
+   SHARED COMPONENTS
+===================================================== */
+section{position:relative;z-index:1;overflow-x:hidden;}
+.container{max-width:1180px;margin:0 auto;padding:0 5%;width:100%;}
+
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 16px;
+  background:rgba(196,18,48,0.1);
+  border:1px solid rgba(196,18,48,0.3);
+  border-radius:var(--radius-pill);
+  font-size:0.74rem;font-weight:700;
+  color:var(--red-glow);
+  letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:18px;
+}
+.badge-dot{
+  width:6px;height:6px;background:var(--red-glow);
+  border-radius:50%;animation:pulse 2s ease-in-out infinite;flex-shrink:0;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.45;transform:scale(0.6);}}
+
+.section-title{
+  font-size:clamp(1.9rem,3.6vw,2.85rem);
+  font-weight:800;line-height:1.14;letter-spacing:-0.5px;margin-bottom:14px;
+}
+body.ar .section-title{letter-spacing:0;line-height:1.3;}
+.section-title .highlight{
+  background:var(--grad-brand);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.section-subtitle{
+  font-size:1rem;color:var(--white-60);
+  max-width:550px;line-height:1.78;margin-bottom:48px;
+}
+body.ar .section-subtitle{line-height:1.95;}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:.1s;}
+.reveal-delay-2{transition-delay:.2s;}
+.reveal-delay-3{transition-delay:.3s;}
+.reveal-delay-4{transition-delay:.4s;}
+.reveal-delay-5{transition-delay:.5s;}
+
+/* Buttons */
+.btn-primary{
+  padding:15px 32px;
+  background:var(--grad-brand);
+  color:var(--white);border:none;border-radius:var(--radius-pill);
+  font-size:0.95rem;font-weight:700;
+  cursor:pointer;font-family:inherit;
+  transition:var(--transition);
+  box-shadow:0 0 32px rgba(196,18,48,0.38);
+  text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 0 60px rgba(196,18,48,0.58);}
+
+.btn-secondary{
+  padding:14px 32px;
+  background:transparent;color:var(--white);
+  border:1px solid rgba(196,18,48,0.4);
+  border-radius:var(--radius-pill);
+  font-size:0.95rem;font-weight:600;
+  cursor:pointer;font-family:inherit;
+  transition:var(--transition);
+  text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  backdrop-filter:blur(10px);
+}
+.btn-secondary:hover{
+  background:rgba(196,18,48,0.12);
+  border-color:var(--red-brand);
+  transform:translateY(-3px);
+  box-shadow:0 0 28px rgba(196,18,48,0.22);
+}
+
+/* =====================================================
+   1. HERO
+===================================================== */
+#hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  gap:60px;
+  padding:130px 5% 80px;
+  position:relative;
+  overflow:hidden;
+  width:100%;
+}
+
+/* Hero background glow */
+#hero::before{
+  content:'';position:absolute;
+  top:0;right:0;bottom:0;
+  width:55%;
+  background:radial-gradient(ellipse at 80% 50%,rgba(196,18,48,0.18) 0%,transparent 65%);
+  pointer-events:none;
+}
+#hero::after{
+  content:'';position:absolute;
+  top:20%;left:0;
+  width:40%;height:60%;
+  background:radial-gradient(ellipse at 20% 50%,rgba(139,13,34,0.1) 0%,transparent 60%);
+  pointer-events:none;
+}
+
+/* Text side */
+.hero-text{position:relative;z-index:2;}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 18px;
+  background:rgba(196,18,48,0.08);
+  border:1px solid rgba(196,18,48,0.25);
+  border-radius:var(--radius-pill);
+  font-size:0.77rem;font-weight:700;
+  color:var(--red-glow);letter-spacing:1px;
+  margin-bottom:26px;
+  opacity:0;transform:translateY(18px);
+  animation:heroIn .8s var(--ease) forwards .2s;
+}
+@keyframes heroIn{to{opacity:1;transform:translateY(0);}}
+
+.hero-title{
+  font-size:clamp(2.3rem,4.8vw,4.2rem);
+  font-weight:800;line-height:1.1;letter-spacing:-1.5px;
+  margin-bottom:20px;
+  opacity:0;transform:translateY(28px);
+  animation:heroIn .9s var(--ease) forwards .4s;
+}
+body.ar .hero-title{letter-spacing:0;line-height:1.28;}
+
+.gradient-text{
+  background:var(--grad-brand);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.hero-sub{
+  font-size:clamp(.95rem,1.6vw,1.12rem);
+  color:var(--white-60);
+  max-width:480px;
+  line-height:1.78;
+  margin-bottom:40px;
+  opacity:0;transform:translateY(28px);
+  animation:heroIn .9s var(--ease) forwards .6s;
+}
+body.ar .hero-sub{line-height:2;}
+
+.hero-buttons{
+  display:flex;gap:12px;flex-wrap:wrap;
+  opacity:0;transform:translateY(28px);
+  animation:heroIn .9s var(--ease) forwards .8s;
+}
+
+.hero-stats{
+  display:flex;gap:36px;
+  margin-top:52px;padding-top:36px;
+  border-top:1px solid var(--border-subtle);
+  opacity:0;transform:translateY(20px);
+  animation:heroIn .9s var(--ease) forwards 1s;
+}
+.hero-stat-num{
+  font-size:1.9rem;font-weight:800;
+  background:var(--grad-brand);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:block;line-height:1;margin-bottom:4px;
+}
+.hero-stat-label{font-size:0.76rem;color:var(--white-30);letter-spacing:0.2px;}
+
+/* Photo side */
+.hero-photo-wrap{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateX(40px);
+  animation:heroIn 1s var(--ease) forwards .5s;
+}
+
+.hero-photo-frame{
+  position:relative;
+  width:420px;max-width:100%;
+}
+
+/* Orbital rings */
+.hero-ring{
+  position:absolute;
+  border-radius:50%;
+  border:1px solid rgba(196,18,48,0.18);
+  pointer-events:none;
+}
+.hero-ring-1{
+  inset:-30px;
+  animation:spin 22s linear infinite;
+}
+.hero-ring-1::before{
+  content:'';position:absolute;
+  top:-5px;left:50%;transform:translateX(-50%);
+  width:9px;height:9px;
+  background:var(--red-brand);border-radius:50%;
+  box-shadow:0 0 14px var(--red-brand),0 0 28px rgba(196,18,48,0.4);
+}
+.hero-ring-2{
+  inset:-58px;
+  border-color:rgba(232,133,58,0.1);
+  animation:spin 38s linear infinite reverse;
+}
+.hero-ring-2::after{
+  content:'';position:absolute;
+  bottom:-5px;right:20%;
+  width:7px;height:7px;
+  background:var(--amber);border-radius:50%;
+  box-shadow:0 0 12px var(--amber);
+}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+.hero-photo-inner{
+  width:100%;
+  aspect-ratio:3/4;
+  border-radius:28px;
+  overflow:hidden;
+  position:relative;
+  border:1px solid rgba(196,18,48,0.25);
+  box-shadow:
+    0 0 0 1px rgba(196,18,48,0.1),
+    0 40px 80px rgba(0,0,0,0.7),
+    0 0 60px rgba(196,18,48,0.12);
+}
+
+.hero-photo-inner img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  display:block;
+  filter:saturate(1.05) contrast(1.02);
+}
+
+/* Overlay gradient on photo */
+.hero-photo-inner::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(8,5,8,0.6) 85%,
+    rgba(8,5,8,0.95) 100%
+  );
+}
+
+/* Brand star mark */
+.hero-star{
+  position:absolute;
+  bottom:20px;right:20px;
+  z-index:3;
+  width:38px;height:38px;
+  background:var(--grad-brand);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;
+  box-shadow:0 0 20px rgba(196,18,48,0.5);
+  animation:starPulse 3s ease-in-out infinite;
+}
+@keyframes starPulse{
+  0%,100%{transform:scale(1);box-shadow:0 0 20px rgba(196,18,48,0.5);}
+  50%{transform:scale(1.08);box-shadow:0 0 36px rgba(196,18,48,0.7);}
+}
+
+/* Photo name badge */
+.hero-name-badge{
+  position:absolute;
+  bottom:-16px;left:50%;transform:translateX(-50%);
+  z-index:4;
+  background:rgba(8,5,8,0.95);
+  border:1px solid var(--border-brand);
+  border-radius:var(--radius-pill);
+  padding:10px 24px;
+  white-space:nowrap;
+  backdrop-filter:blur(20px);
+  box-shadow:0 0 30px rgba(196,18,48,0.15);
+}
+.hero-name-badge strong{
+  font-size:0.95rem;font-weight:700;
+  display:block;margin-bottom:2px;
+}
+.hero-name-badge span{
+  font-size:0.72rem;color:var(--red-glow);
+  font-weight:600;letter-spacing:0.5px;
+}
+
+/* Scroll indicator */
+.scroll-indicator{
+  position:absolute;bottom:24px;left:50%;
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  opacity:0;animation:heroIn 1s ease forwards 1.6s;
+  z-index:2;
+}
+.scroll-mouse{width:22px;height:36px;border:2px solid var(--white-30);border-radius:11px;position:relative;}
+.scroll-wheel{
+  width:4px;height:7px;background:var(--red-brand);
+  border-radius:2px;position:absolute;
+  top:5px;left:50%;transform:translateX(-50%);
+  animation:scrollA 2s ease-in-out infinite;
+}
+@keyframes scrollA{0%{top:5px;opacity:1;}100%{top:18px;opacity:0;}}
+.scroll-text{font-size:0.64rem;color:var(--white-30);letter-spacing:2.5px;text-transform:uppercase;}
+
+/* =====================================================
+   2. ABOUT
+===================================================== */
+#about{padding:120px 5%;}
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+
+/* Photo column */
+.about-photo-col{position:relative;display:flex;flex-direction:column;align-items:center;}
+
+.about-photo-frame{
+  width:300px;height:360px;
+  border-radius:var(--radius-xl);
+  overflow:hidden;
+  position:relative;
+  border:1px solid rgba(196,18,48,0.2);
+  box-shadow:
+    0 30px 70px rgba(0,0,0,0.6),
+    0 0 40px rgba(196,18,48,0.1);
+}
+.about-photo-frame img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  filter:saturate(1.05);
+}
+.about-photo-frame::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 60%,rgba(8,5,8,0.7) 100%);
+}
+
+/* Floating stat cards */
+.about-stat-card{
+  position:absolute;
+  background:rgba(12,6,8,0.92);
+  border:1px solid var(--border-brand);
+  border-radius:var(--radius-lg);
+  padding:12px 18px;
+  backdrop-filter:blur(16px);
+  box-shadow:0 0 24px rgba(196,18,48,0.12);
+}
+.about-stat-card-1{top:20px;right:-40px;animation:float 4s ease-in-out infinite;}
+.about-stat-card-2{bottom:40px;left:-40px;animation:float 4s ease-in-out infinite .8s;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+
+.asc-num{
+  font-size:1.5rem;font-weight:800;
+  background:var(--grad-brand);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:block;line-height:1;
+}
+.asc-label{font-size:0.68rem;color:var(--white-60);margin-top:3px;white-space:nowrap;}
+
+.about-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;justify-content:center;}
+.about-tag{
+  padding:5px 14px;
+  background:rgba(196,18,48,0.07);
+  border:1px solid rgba(196,18,48,0.18);
+  border-radius:var(--radius-pill);
+  font-size:0.73rem;font-weight:600;color:var(--red-glow);
+}
+
+/* Text column */
+.about-text .section-title{text-align:left;}
+body.ar .about-text .section-title{text-align:right;}
+
+.about-description{
+  font-size:0.97rem;color:var(--white-60);line-height:1.85;margin-bottom:32px;
+}
+body.ar .about-description{line-height:2.05;}
+
+.about-skills{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.skill-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:14px;
+  background:var(--white-05);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-lg);
+  transition:var(--transition);
+}
+.skill-item:hover{
+  background:rgba(196,18,48,0.06);
+  border-color:var(--border-brand);
+  transform:translateY(-2px);
+}
+.skill-icon{
+  width:34px;height:34px;
+  background:rgba(196,18,48,0.12);
+  border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;
+}
+.skill-name{font-size:0.82rem;font-weight:700;color:var(--white);display:block;margin-bottom:2px;}
+.skill-desc{font-size:0.7rem;color:var(--white-30);}
+
+/* =====================================================
+   3. SERVICES
+===================================================== */
+#services{padding:120px 5%;text-align:center;}
+
+.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:52px;}
+
+.service-card{
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-xl);
+  padding:36px 32px;text-align:left;
+  position:relative;overflow:hidden;cursor:pointer;
+  transition:transform .4s var(--ease),border-color .4s ease,box-shadow .4s ease;
+  transform-style:preserve-3d;
+  backdrop-filter:blur(14px);
+}
+body.ar .service-card{text-align:right;}
+.service-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--red-brand),transparent);
+  opacity:0;transition:opacity .4s ease;
+}
+.service-card::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% -10%,rgba(196,18,48,0.08),transparent 55%);
+  opacity:0;transition:opacity .4s ease;
+}
+.service-card:hover{
+  border-color:var(--border-brand);
+  box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(196,18,48,0.1),var(--shadow-brand);
+}
+.service-card:hover::before,.service-card:hover::after{opacity:1;}
+
+.service-number{
+  position:absolute;top:24px;right:24px;
+  font-size:0.68rem;font-weight:700;color:var(--white-30);letter-spacing:2px;
+}
+body.ar .service-number{right:auto;left:24px;}
+
+.service-icon{
+  width:56px;height:56px;
+  background:linear-gradient(135deg,rgba(196,18,48,0.15),rgba(232,133,58,0.08));
+  border:1px solid rgba(196,18,48,0.2);
+  border-radius:15px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:20px;
+  position:relative;z-index:1;transition:var(--transition);
+}
+.service-card:hover .service-icon{
+  background:linear-gradient(135deg,rgba(196,18,48,0.25),rgba(232,133,58,0.15));
+  box-shadow:0 0 22px rgba(196,18,48,0.25);transform:scale(1.06);
+}
+
+.service-title{
+  font-size:1.12rem;font-weight:700;color:var(--white);
+  margin-bottom:10px;position:relative;z-index:1;line-height:1.4;
+}
+.service-description{
+  font-size:0.85rem;color:var(--white-60);line-height:1.72;
+  position:relative;z-index:1;margin-bottom:18px;
+}
+body.ar .service-description{line-height:1.9;}
+
+.service-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:0.79rem;font-weight:700;color:var(--red-glow);
+  text-decoration:none;position:relative;z-index:1;
+  transition:gap .3s ease;
+}
+.service-link:hover{gap:10px;}
+
+/* =====================================================
+   4. TRANSFORMATION
+===================================================== */
+#transformation{padding:120px 5%;}
+.transform-header{text-align:center;margin-bottom:56px;}
+
+.transform-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:start;}
+
+.transform-col{
+  background:var(--bg-card);
+  border-radius:var(--radius-xl);
+  padding:36px 32px;backdrop-filter:blur(14px);
+}
+.transform-col.before{
+  border:1px solid rgba(255,80,80,0.16);
+  background:rgba(255,30,30,0.03);
+}
+.transform-col.after{
+  border:1px solid rgba(196,18,48,0.24);
+  background:rgba(196,18,48,0.04);
+}
+
+.transform-label{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:0.72rem;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:24px;
+  padding:5px 12px;border-radius:var(--radius-pill);
+}
+.transform-col.before .transform-label{
+  color:#ff7070;background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.16);
+}
+.transform-col.after .transform-label{
+  color:var(--red-glow);background:rgba(196,18,48,0.1);border:1px solid rgba(196,18,48,0.25);
+}
+
+.transform-items{display:flex;flex-direction:column;gap:11px;}
+.transform-item{
+  display:flex;align-items:flex-start;gap:11px;
+  padding:13px 16px;border-radius:12px;transition:transform .3s ease;
+}
+.transform-col.before .transform-item{background:rgba(255,80,80,0.04);border:1px solid rgba(255,80,80,0.08);}
+.transform-col.after  .transform-item{background:rgba(196,18,48,0.05);border:1px solid rgba(196,18,48,0.1);}
+.transform-item:hover{transform:translateX(4px);}
+body.ar .transform-item:hover{transform:translateX(-4px);}
+body.ar .transform-item{flex-direction:row-reverse;}
+
+.transform-item-icon{
+  width:30px;height:30px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;
+}
+.transform-col.before .transform-item-icon{background:rgba(255,80,80,0.12);}
+.transform-col.after  .transform-item-icon{background:rgba(196,18,48,0.15);}
+
+.transform-item-text{font-size:0.86rem;color:var(--white-60);line-height:1.55;font-weight:500;}
+body.ar .transform-item-text{line-height:1.72;}
+
+.transform-arrow{
+  display:flex;align-items:center;justify-content:center;
+  padding-top:105px;flex-shrink:0;
+}
+.arrow-circle{
+  width:54px;height:54px;border-radius:50%;
+  background:var(--grad-brand);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+  box-shadow:0 0 28px rgba(196,18,48,0.5);
+  animation:pulsate 2s ease-in-out infinite;
+}
+@keyframes pulsate{
+  0%,100%{transform:scale(1);box-shadow:0 0 28px rgba(196,18,48,0.5);}
+  50%{transform:scale(1.1);box-shadow:0 0 50px rgba(196,18,48,0.72);}
+}
+
+/* =====================================================
+   5. FRAMEWORK
+===================================================== */
+#framework{
+  padding:120px 5%;text-align:center;
+  background:linear-gradient(180deg,transparent,rgba(196,18,48,0.02),transparent);
+}
+
+.framework-steps{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:13px;margin-top:56px;position:relative;
+}
+.framework-steps::before{
+  content:'';position:absolute;top:48px;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border-brand),transparent);z-index:0;
+}
+
+.framework-step{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  padding:28px 16px 24px;
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-xl);
+  position:relative;z-index:1;
+  transition:var(--transition);backdrop-filter:blur(14px);
+}
+.framework-step:hover{
+  border-color:var(--border-brand);
+  transform:translateY(-9px);
+  box-shadow:var(--shadow-brand);
+}
+
+.step-number{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--grad-brand);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-weight:800;color:var(--white);
+  box-shadow:0 0 20px rgba(196,18,48,0.35);flex-shrink:0;
+}
+.step-icon{font-size:1.4rem;}
+.step-title{font-size:0.82rem;font-weight:700;color:var(--white);text-align:center;line-height:1.45;}
+body.ar .step-title{line-height:1.65;}
+.step-desc{font-size:0.7rem;color:var(--white-30);text-align:center;line-height:1.5;}
+body.ar .step-desc{line-height:1.7;}
+
+/* =====================================================
+   6. SOCIAL PROOF
+===================================================== */
+#proof{padding:120px 5%;text-align:center;}
+
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px;}
+
+.testimonial-card{
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-xl);
+  padding:28px 24px;text-align:left;
+  position:relative;transition:var(--transition);backdrop-filter:blur(14px);
+}
+body.ar .testimonial-card{text-align:right;}
+.testimonial-card:hover{
+  border-color:var(--border-brand);
+  transform:translateY(-7px);box-shadow:var(--shadow-brand);
+}
+
+.testimonial-stars{
+  position:absolute;top:24px;right:24px;
+  color:#F59E0B;font-size:0.78rem;letter-spacing:2px;
+}
+body.ar .testimonial-stars{right:auto;left:24px;}
+
+.testimonial-quote{
+  font-size:2.1rem;line-height:1;
+  color:var(--red-brand);opacity:0.35;
+  font-family:Georgia,serif;margin-bottom:12px;
+}
+.testimonial-text{
+  font-size:0.85rem;color:var(--white-60);line-height:1.72;
+  margin-bottom:20px;font-style:italic;
+}
+body.ar .testimonial-text{line-height:1.9;}
+
+.testimonial-author{display:flex;align-items:center;gap:11px;}
+body.ar .testimonial-author{flex-direction:row-reverse;}
+.author-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--grad-brand);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.95rem;font-weight:700;flex-shrink:0;
+  box-shadow:0 0 12px rgba(196,18,48,0.25);
+}
+.author-name{font-size:0.83rem;font-weight:700;color:var(--white);display:block;}
+.author-role{font-size:0.7rem;color:var(--white-30);}
+
+.proof-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:18px;margin-top:52px;
+}
+.proof-stat{
+  padding:28px;background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-xl);
+  text-align:center;backdrop-filter:blur(14px);transition:var(--transition);
+}
+.proof-stat:hover{border-color:var(--border-brand);box-shadow:var(--shadow-brand);}
+.proof-stat-num{
+  font-size:2.2rem;font-weight:800;
+  background:var(--grad-brand);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:block;margin-bottom:4px;
+}
+.proof-stat-label{font-size:0.78rem;color:var(--white-60);}
+
+/* =====================================================
+   7. CTA
+===================================================== */
+#cta{padding:120px 5%;text-align:center;position:relative;overflow:hidden;}
+.cta-bg-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:700px;height:700px;
+  background:radial-gradient(circle,rgba(196,18,48,0.1),transparent 70%);
+  pointer-events:none;
+}
+
+.cta-inner{
+  position:relative;z-index:1;max-width:760px;margin:0 auto;
+  padding:64px;
+  background:linear-gradient(135deg,rgba(16,8,10,0.95),rgba(10,5,8,0.98));
+  border:1px solid rgba(196,18,48,0.22);
+  border-radius:32px;
+  backdrop-filter:blur(24px);
+  box-shadow:
+    0 0 80px rgba(196,18,48,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.cta-tag{
+  display:inline-block;padding:5px 16px;
+  background:rgba(196,18,48,0.1);
+  border:1px solid rgba(196,18,48,0.25);
+  border-radius:var(--radius-pill);
+  font-size:0.71rem;font-weight:700;
+  color:var(--red-glow);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px;
+}
+
+.cta-title{
+  font-size:clamp(1.5rem,3vw,2.35rem);
+  font-weight:800;line-height:1.22;letter-spacing:-0.3px;
+  margin-bottom:16px;color:var(--white);
+}
+body.ar .cta-title{letter-spacing:0;line-height:1.44;}
+
+.cta-subtitle{font-size:0.95rem;color:var(--white-60);margin-bottom:36px;line-height:1.65;}
+body.ar .cta-subtitle{line-height:1.85;}
+
+.cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+/* =====================================================
+   8. FOOTER
+===================================================== */
+footer{
+  padding:52px 5% 32px;
+  border-top:1px solid var(--border-subtle);
+  position:relative;z-index:1;
+}
+
+.footer-inner{
+  display:grid;grid-template-columns:2fr 1fr 1fr;
+  gap:52px;margin-bottom:40px;
+}
+body.ar .footer-inner{direction:rtl;}
+
+.footer-logo{
+  font-size:1.35rem;font-weight:800;
+  background:var(--grad-brand);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:block;letter-spacing:-0.4px;margin-bottom:10px;
+}
+.footer-tagline{font-size:0.82rem;color:var(--white-30);line-height:1.65;max-width:245px;}
+body.ar .footer-tagline{line-height:1.85;}
+.footer-email{
+  display:inline-flex;align-items:center;gap:7px;
+  margin-top:16px;font-size:0.85rem;
+  color:var(--red-glow);text-decoration:none;transition:var(--transition);
+}
+.footer-email:hover{color:var(--white);}
+
+.footer-col-title{
+  font-size:0.72rem;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--white-30);margin-bottom:14px;
+}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-links a{color:var(--white-60);text-decoration:none;font-size:0.84rem;transition:var(--transition);}
+.footer-links a:hover{color:var(--red-glow);}
+
+.footer-social{display:flex;gap:9px;margin-top:16px;}
+.social-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--white-05);
+  border:1px solid var(--border-subtle);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.88rem;color:var(--white-60);
+  cursor:pointer;text-decoration:none;transition:var(--transition);
+}
+.social-btn:hover{
+  background:rgba(196,18,48,0.1);
+  border-color:var(--border-brand);
+  color:var(--red-glow);transform:translateY(-2px);
+}
+
+.footer-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:24px;border-top:1px solid var(--border-subtle);
+  font-size:0.73rem;color:var(--white-30);
+}
+.footer-dot{
+  width:3px;height:3px;border-radius:50%;
+  background:var(--red-brand);
+  display:inline-block;margin:0 7px;vertical-align:middle;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+/* ── 1024px: tablet landscape ── */
+@media(max-width:1024px){
+  #hero{
+    grid-template-columns:1fr;
+    text-align:center;
+    padding:110px 5% 80px;
+    gap:40px;
+    min-height:auto;
+  }
+  #hero::before,#hero::after{display:none;}
+  .hero-text{order:2;}
+  .hero-buttons{justify-content:center;}
+  .hero-stats{justify-content:center;}
+  .hero-sub{max-width:560px;margin-left:auto;margin-right:auto;}
+  .hero-photo-wrap{order:1;width:100%;display:flex;justify-content:center;}
+  .hero-photo-frame{width:240px;margin:0 auto;}
+  /* Contain rings so they don't overflow */
+  .hero-ring-1{inset:-16px;}
+  .hero-ring-2{inset:-32px;}
+  /* Name badge stays inside the card */
+  .hero-name-badge{bottom:-14px;padding:8px 18px;}
+  .about-stat-card-1{right:-8px;}
+  .about-stat-card-2{left:-8px;}
+  .framework-steps{grid-template-columns:repeat(3,1fr);}
+  .framework-steps::before{display:none;}
+  .proof-stats{grid-template-columns:repeat(2,1fr);}
+  .section-title{font-size:clamp(1.7rem,3.2vw,2.6rem);}
+  nav{padding:14px 4%;}
+}
+
+/* ── 768px: tablet portrait ── */
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none;}
+  .hamburger{display:flex;}
+  nav{padding:14px 4%;gap:8px;}
+  .nav-logo-text{font-size:1.05rem;}
+  .lang-toggle{flex-shrink:0;}
+  .lang-btn{padding:4px 10px;font-size:0.7rem;}
+
+  /* hero */
+  #hero{padding:90px 5% 60px;gap:32px;}
+  .hero-photo-frame{width:240px;}
+  .hero-title{font-size:clamp(2rem,7vw,3rem);letter-spacing:-1px;}
+  .hero-stats{gap:18px;flex-wrap:wrap;justify-content:center;}
+
+  /* about */
+  .about-grid{grid-template-columns:1fr;gap:40px;}
+  .about-photo-frame{width:220px;height:265px;}
+  .about-text .section-title{text-align:center;}
+  body.ar .about-text .section-title{text-align:center;}
+  .about-stat-card-1,.about-stat-card-2{display:none;}
+
+  /* services */
+  .services-grid{grid-template-columns:1fr;}
+
+  /* transformation */
+  .transform-grid{grid-template-columns:1fr;gap:16px;}
+  .transform-arrow{padding-top:0;display:flex;align-items:center;justify-content:center;}
+  .transform-arrow .arrow-circle{transform:rotate(90deg);}
+
+  /* framework */
+  .framework-steps{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .framework-steps::before{display:none;}
+
+  /* proof */
+  .testimonials-grid{grid-template-columns:1fr;}
+  .proof-stats{grid-template-columns:repeat(2,1fr);}
+
+  /* cta */
+  .cta-inner{padding:40px 24px;}
+  .cta-buttons{flex-direction:column;align-items:center;}
+
+  /* footer */
+  .footer-inner{grid-template-columns:1fr;gap:32px;}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center;}
+}
+
+/* ── 480px: mobile ── */
+@media(max-width:480px){
+  #hero{padding:80px 4% 50px;}
+  .hero-photo-frame{width:200px;}
+  .hero-buttons{flex-direction:column;align-items:center;width:100%;}
+  .hero-buttons .btn-primary,
+  .hero-buttons .btn-secondary{width:100%;justify-content:center;}
+  .hero-stats{flex-direction:column;gap:14px;align-items:center;}
+
+  .about-skills{grid-template-columns:1fr;}
+  .about-photo-frame{width:190px;height:230px;}
+
+  .framework-steps{grid-template-columns:1fr;}
+
+  .proof-stats{grid-template-columns:repeat(2,1fr);}
+
+  .cta-buttons .btn-primary,
+  .cta-buttons .btn-secondary{width:100%;justify-content:center;}
+
+  .section-title{font-size:clamp(1.55rem,6vw,2.1rem);}
+  .section-subtitle{font-size:0.9rem;}
+}
+</style>
+</head>
 <body>
 
-    <div id="splash-screen">
-        <div class="splash-content">
-            <div class="ai-brain-container">
-                <svg class="ai-brain-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <path class="ai-brain-path" d="M100,20 C40,20 40,100 40,100 C40,180 100,180 100,180 C160,180 160,100 160,100 C160,20 100,20 100,20 Z M100,120 C80,120 80,100 80,100 C80,80 100,80 100,80 C120,80 120,100 120,100 C120,120 100,120 100,120 Z" />
-                    <circle class="ai-brain-node" cx="100" cy="100" r="5" /> <circle class="ai-brain-node" cx="70" cy="60" r="5" /> <circle class="ai-brain-node" cx="130" cy="60" r="5" /> <circle class="ai-brain-node" cx="70" cy="140" r="5" /> <circle class="ai-brain-node" cx="130" cy="140" r="5" />
-                </svg>
-            </div>
-            <h1 id="splash-text"></h1>
-        </div>
-    </div>
+<div class="cursor-glow" id="cursorGlow"></div>
+<canvas id="neural-canvas"></canvas>
 
-    <div id="main-content">
-        <img class="main-icon" src="https://cdn-icons-png.flaticon.com/128/5712/5712418.png" alt="ذكاء اصطناعي">
-        <h1 class="main-h1">🚧 الموقع قيد التطوير 🚧</h1>
-        <p class="main-p">نعمل حالياً على بناء منصة مبتكرة مدعومة بأحدث تقنيات الذكاء الاصطناعي. نضع اللمسات الأخيرة لنعود لكم قريبًا بتجربة فريدة.</p>
-        
-        <div id="countdown"></div>
-        <form id="subscribe-form" class="subscribe-form">
-            <input type="email" name="email" placeholder="ادخل بريدك الإلكتروني ليصلك إشعار بالإطلاق" required>
-            <button type="submit">إرسال</button>
-        </form>
-
-    <div class="social-links">
-    <a href="https://www.instagram.com/urabicode/" target="_blank" title="Instagram">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919 4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.441c-3.171 0-3.515.01-4.745.068-2.812.128-4.226 1.553-4.354 4.354-.058 1.23-.068 1.574-.068 4.745s.01 3.515.068 4.745c.128 2.812 1.553 4.226 4.354 4.354 1.23.058 1.574.068 4.745.068s3.515-.01 4.745-.068c2.812-.128 4.226-1.553 4.354-4.354.058-1.23.068-1.574.068-4.745s-.01-3.515-.068-4.745c-.128-2.812-1.553-4.226-4.354-4.354-1.23-.058-1.574-.068-4.745-.068zm0 5.838a4.552 4.552 0 100 9.104 4.552 4.552 0 000-9.104zm0 7.662a3.11 3.11 0 110-6.22 3.11 3.11 0 010 6.22zM16.965 6.57a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"/></svg>
-    </a>
-
-    <a href="#" target="_blank" title="Facebook">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878V14.89H8.078v-2.89h2.36V9.613c0-2.328 1.39-3.626 3.523-3.626.996 0 1.858.074 2.106.106v2.585h-1.513c-1.13 0-1.35.536-1.35 1.326v1.735h2.88l-.377 2.89h-2.503v7.005C18.343 21.128 22 16.991 22 12z"/></svg>
-    </a>
-
-    <a href="#" target="_blank" title="Twitter">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
-    </a>
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
+  <a href="#about"          onclick="closeMobileMenu()"><span class="lang-en">About</span><span class="lang-ar">عن أحمد</span></a>
+  <a href="#services"       onclick="closeMobileMenu()"><span class="lang-en">Services</span><span class="lang-ar">الخدمات</span></a>
+  <a href="#framework"      onclick="closeMobileMenu()"><span class="lang-en">Framework</span><span class="lang-ar">المنهجية</span></a>
+  <a href="#proof"          onclick="closeMobileMenu()"><span class="lang-en">Testimonials</span><span class="lang-ar">الشهادات</span></a>
+  <a href="#cta" class="btn-primary" style="margin-top:14px" onclick="closeMobileMenu()">
+    <span class="lang-en">Book Consultation</span><span class="lang-ar">احجز استشارة</span>
+  </a>
 </div>
 
-    <div id="success-modal" class="modal-overlay">
-        <div class="modal-content"><h4>تم التسجيل بنجاح!</h4><p>شكراً لك، سنبقيك على اطلاع دائم.</p><button id="close-modal-btn" class="modal-button">إغلاق</button></div>
+<!-- ============================================================ NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <div class="nav-logo-mark">A</div>
+    <div class="nav-logo-text"><span>Ahmad</span> Urabi</div>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="#about"><span class="lang-en">About</span><span class="lang-ar">عن أحمد</span></a></li>
+    <li><a href="#services"><span class="lang-en">Services</span><span class="lang-ar">الخدمات</span></a></li>
+    <li><a href="#transformation"><span class="lang-en">Transformation</span><span class="lang-ar">التحوّل</span></a></li>
+    <li><a href="#framework"><span class="lang-en">Framework</span><span class="lang-ar">المنهجية</span></a></li>
+    <li><a href="#proof"><span class="lang-en">Proof</span><span class="lang-ar">الشهادات</span></a></li>
+  </ul>
+
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+      <button class="lang-btn"        id="btnAR" onclick="setLang('ar')">AR</button>
+    </div>
+    <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+      <span class="lang-en">Book Consultation</span>
+      <span class="lang-ar">احجز استشارة</span>
+    </button>
+    <div class="hamburger" onclick="openMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================ 1. HERO -->
+<section id="hero">
+
+  <!-- Text -->
+  <div class="hero-text">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      <span class="lang-en">AI Engineer &amp; Educator</span>
+      <span class="lang-ar">مهندس ومدرب ذكاء اصطناعي</span>
     </div>
 
-    <footer>
-      <div class="footer-copyright">
-            <p>© 2025 جميع الحقوق محفوظة | Urabi AI </p>
-        </div>
-    </footer>
-    <script src="script.js"></script>
-    <script src="//code.tidio.co/oz3celbzemzixryupmb8f3mqdjvgi6ny.js" async></script>
+    <h1 class="hero-title">
+      <span class="lang-en">Turn Artificial Intelligence<br>into a <span class="gradient-text">Real Business</span><br>Advantage</span>
+      <span class="lang-ar">حوّل الذكاء الاصطناعي<br>إلى <span class="gradient-text">ميزة حقيقية</span><br>لنمو أعمالك</span>
+    </h1>
 
+    <p class="hero-sub">
+      <span class="lang-en">Helping entrepreneurs automate, scale, and grow using cutting-edge AI systems and intelligent workflows.</span>
+      <span class="lang-ar">أساعد رواد الأعمال وأصحاب المشاريع على الأتمتة والتوسع والنمو باستخدام أنظمة الذكاء الاصطناعي المتقدمة.</span>
+    </p>
+
+    <div class="hero-buttons">
+      <a href="#cta" class="btn-primary">
+        <span>🚀</span>
+        <span class="lang-en">Book a Consultation</span>
+        <span class="lang-ar">احجز استشارة</span>
+      </a>
+      <a href="#services" class="btn-secondary">
+        <span>⚡</span>
+        <span class="lang-en">Join Workshops</span>
+        <span class="lang-ar">انضم للورشات</span>
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num" data-target="200">200+</span>
+        <span class="hero-stat-label"><span class="lang-en">Entrepreneurs Trained</span><span class="lang-ar">رائد أعمال تدرّب</span></span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" data-target="50">50+</span>
+        <span class="hero-stat-label"><span class="lang-en">Businesses Automated</span><span class="lang-ar">مشروع أُتمت</span></span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" data-target="98">98%</span>
+        <span class="hero-stat-label"><span class="lang-en">Satisfaction Rate</span><span class="lang-ar">رضا العملاء</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Photo -->
+  <div class="hero-photo-wrap">
+    <div class="hero-photo-frame">
+      <div class="hero-ring hero-ring-2"></div>
+      <div class="hero-ring hero-ring-1"></div>
+
+      <div class="hero-photo-inner">
+        <img src="ahmad-urabi.png" alt="Ahmad Urabi — AI Engineer & Educator" />
+      </div>
+
+      <div class="hero-star">✦</div>
+
+      <div class="hero-name-badge">
+        <strong>Ahmad Urabi</strong>
+        <span><span class="lang-en">AI Engineer &amp; Educator</span><span class="lang-ar">مهندس ومدرب ذكاء اصطناعي</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    <span class="scroll-text">scroll</span>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<!-- ============================================================ 2. ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+
+      <!-- Photo col -->
+      <div class="about-photo-col reveal">
+        <div class="about-photo-frame">
+          <img src="ahmad-urabi.png" alt="Ahmad Urabi" />
+        </div>
+
+        <!-- Floating stat cards -->
+        <div class="about-stat-card about-stat-card-1">
+          <span class="asc-num">200+</span>
+          <span class="asc-label"><span class="lang-en">Trained</span><span class="lang-ar">متدرّب</span></span>
+        </div>
+        <div class="about-stat-card about-stat-card-2">
+          <span class="asc-num">98%</span>
+          <span class="asc-label"><span class="lang-en">Satisfaction</span><span class="lang-ar">رضا العملاء</span></span>
+        </div>
+
+        <div class="about-tags">
+          <span class="about-tag">🧠 AI Engineer</span>
+          <span class="about-tag">🎓 AI Educator</span>
+          <span class="about-tag">⚙️ Automation</span>
+          <span class="about-tag">🚀 Business AI</span>
+        </div>
+      </div>
+
+      <!-- Text col -->
+      <div class="about-text">
+        <div class="badge reveal">
+          <span class="badge-dot"></span>
+          <span class="lang-en">About Ahmad</span>
+          <span class="lang-ar">من هو أحمد</span>
+        </div>
+
+        <h2 class="section-title reveal">
+          <span class="lang-en">Engineering AI<br><span class="highlight">Transformations</span></span>
+          <span class="lang-ar">أبني أنظمة ذكاء<br><span class="highlight">تحوّل الأعمال</span></span>
+        </h2>
+
+        <p class="about-description reveal">
+          <span class="lang-en">Ahmad Urabi is an AI Engineer and Educator who bridges the gap between complex AI technologies and real-world business applications. With deep expertise in AI systems, automation, and smart workflows, he helps entrepreneurs unlock the true power of AI — not just to survive, but to dominate their market.</span>
+          <span class="lang-ar">أحمد عرابي مهندس ذكاء اصطناعي ومدرب متخصص يجسر الهوة بين تقنيات الذكاء الاصطناعي المعقدة وتطبيقات الأعمال الواقعية. بخبرة عميقة في أنظمة الذكاء الاصطناعي والأتمتة وسير العمل الذكية، يساعد رواد الأعمال على إطلاق القوة الحقيقية للذكاء الاصطناعي — ليس فقط للبقاء، بل للهيمنة على السوق.</span>
+        </p>
+
+        <div class="about-skills">
+          <div class="skill-item reveal reveal-delay-1">
+            <div class="skill-icon">🧠</div>
+            <div>
+              <span class="skill-name"><span class="lang-en">AI Engineering</span><span class="lang-ar">هندسة الذكاء الاصطناعي</span></span>
+              <span class="skill-desc"><span class="lang-en">Building intelligent systems</span><span class="lang-ar">بناء الأنظمة الذكية</span></span>
+            </div>
+          </div>
+          <div class="skill-item reveal reveal-delay-2">
+            <div class="skill-icon">🎓</div>
+            <div>
+              <span class="skill-name"><span class="lang-en">AI Education</span><span class="lang-ar">تعليم الذكاء الاصطناعي</span></span>
+              <span class="skill-desc"><span class="lang-en">Training &amp; workshops</span><span class="lang-ar">تدريب وورش عمل</span></span>
+            </div>
+          </div>
+          <div class="skill-item reveal reveal-delay-3">
+            <div class="skill-icon">⚙️</div>
+            <div>
+              <span class="skill-name"><span class="lang-en">Business Automation</span><span class="lang-ar">أتمتة الأعمال</span></span>
+              <span class="skill-desc"><span class="lang-en">Smart workflow design</span><span class="lang-ar">تصميم سير العمل الذكي</span></span>
+            </div>
+          </div>
+          <div class="skill-item reveal reveal-delay-4">
+            <div class="skill-icon">✍️</div>
+            <div>
+              <span class="skill-name"><span class="lang-en">Prompt Engineering</span><span class="lang-ar">هندسة الأوامر</span></span>
+              <span class="skill-desc"><span class="lang-en">Mastering AI outputs</span><span class="lang-ar">إتقان مخرجات الذكاء الاصطناعي</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<!-- ============================================================ 3. SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="badge reveal" style="margin:0 auto 16px;">
+      <span class="badge-dot"></span>
+      <span class="lang-en">What I Offer</span>
+      <span class="lang-ar">ما أقدمه لك</span>
+    </div>
+
+    <h2 class="section-title reveal">
+      <span class="lang-en">AI Services That <span class="highlight">Drive Results</span></span>
+      <span class="lang-ar">خدمات ذكاء اصطناعي <span class="highlight">تصنع الفارق</span></span>
+    </h2>
+
+    <p class="section-subtitle reveal" style="margin:0 auto;">
+      <span class="lang-en">Practical, business-focused AI services designed to transform how you work, create, and grow.</span>
+      <span class="lang-ar">خدمات ذكاء اصطناعي عملية ومركّزة على الأعمال، مصممة لتحويل طريقة عملك وإبداعك ونموك.</span>
+    </p>
+
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-number">01</div>
+        <div class="service-icon">🚀</div>
+        <h3 class="service-title"><span class="lang-en">AI for Entrepreneurs Workshops</span><span class="lang-ar">ورش الذكاء الاصطناعي لرواد الأعمال</span></h3>
+        <p class="service-description"><span class="lang-en">Hands-on workshops designed for entrepreneurs who want to integrate AI tools into their daily business — no technical background required.</span><span class="lang-ar">ورش عملية مصممة لرواد الأعمال الراغبين في دمج أدوات الذكاء الاصطناعي في عملياتهم اليومية — دون الحاجة لخلفية تقنية.</span></p>
+        <a href="#cta" class="service-link"><span class="lang-en">Learn more →</span><span class="lang-ar">← اعرف أكثر</span></a>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-number">02</div>
+        <div class="service-icon">⚙️</div>
+        <h3 class="service-title"><span class="lang-en">Business Automation Consulting</span><span class="lang-ar">استشارات أتمتة الأعمال</span></h3>
+        <p class="service-description"><span class="lang-en">Strategic consulting to identify, design, and implement AI-powered automation that eliminates repetitive tasks and frees your team for high-value work.</span><span class="lang-ar">استشارات استراتيجية لتحديد وتصميم وتطبيق أنظمة أتمتة ذكية تتخلص من المهام المتكررة وتحرر فريقك للعمل عالي القيمة.</span></p>
+        <a href="#cta" class="service-link"><span class="lang-en">Learn more →</span><span class="lang-ar">← اعرف أكثر</span></a>
+      </div>
+
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-number">03</div>
+        <div class="service-icon">✍️</div>
+        <h3 class="service-title"><span class="lang-en">Prompt Engineering Training</span><span class="lang-ar">تدريب هندسة الأوامر</span></h3>
+        <p class="service-description"><span class="lang-en">Master the art of communicating with AI. Learn to craft precise, powerful prompts that deliver consistent, professional-grade outputs for your business.</span><span class="lang-ar">أتقن فن التواصل مع الذكاء الاصطناعي. تعلم صياغة أوامر دقيقة تُنتج مخرجات ثابتة واحترافية لأعمالك.</span></p>
+        <a href="#cta" class="service-link"><span class="lang-en">Learn more →</span><span class="lang-ar">← اعرف أكثر</span></a>
+      </div>
+
+      <div class="service-card reveal reveal-delay-4">
+        <div class="service-number">04</div>
+        <div class="service-icon">🎨</div>
+        <h3 class="service-title"><span class="lang-en">AI Content Creation Systems</span><span class="lang-ar">أنظمة صناعة المحتوى بالذكاء الاصطناعي</span></h3>
+        <p class="service-description"><span class="lang-en">Build scalable AI-powered content pipelines — from social media to email campaigns, video scripts to marketing copy, all running on autopilot.</span><span class="lang-ar">ابنِ خطوط إنتاج محتوى ذكية لعلامتك التجارية — من وسائل التواصل الاجتماعي إلى نصوص التسويق، بشكل شبه آلي.</span></p>
+        <a href="#cta" class="service-link"><span class="lang-en">Learn more →</span><span class="lang-ar">← اعرف أكثر</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<!-- ============================================================ 4. TRANSFORMATION -->
+<section id="transformation">
+  <div class="container">
+    <div class="transform-header">
+      <div class="badge reveal" style="margin:0 auto 16px;">
+        <span class="badge-dot"></span>
+        <span class="lang-en">The Transformation</span><span class="lang-ar">التحوّل</span>
+      </div>
+      <h2 class="section-title reveal">
+        <span class="lang-en">Before AI vs. <span class="highlight">After AI</span></span>
+        <span class="lang-ar">قبل الذكاء الاصطناعي مقابل <span class="highlight">بعده</span></span>
+      </h2>
+      <p class="section-subtitle reveal" style="margin:0 auto;">
+        <span class="lang-en">See the dramatic difference AI makes in how your business operates every single day.</span>
+        <span class="lang-ar">اكتشف الفرق الجذري الذي يحدثه الذكاء الاصطناعي في طريقة عمل مشروعك يوميًا.</span>
+      </p>
+    </div>
+
+    <div class="transform-grid">
+      <div class="transform-col before reveal">
+        <div class="transform-label">❌ <span class="lang-en">Before AI</span><span class="lang-ar">قبل الذكاء الاصطناعي</span></div>
+        <div class="transform-items">
+          <div class="transform-item"><div class="transform-item-icon">😓</div><span class="transform-item-text"><span class="lang-en">Manual, repetitive work consuming hours daily</span><span class="lang-ar">عمل يدوي ومتكرر يستهلك ساعات كل يوم</span></span></div>
+          <div class="transform-item"><div class="transform-item-icon">🐌</div><span class="transform-item-text"><span class="lang-en">Slow content creation with inconsistent quality</span><span class="lang-ar">إنتاج محتوى بطيء وجودة متفاوتة</span></span></div>
+          <div class="transform-item"><div class="transform-item-icon">😵</div><span class="transform-item-text"><span class="lang-en">Disorganized business processes with no clear system</span><span class="lang-ar">عمليات تجارية غير منظمة بلا نظام واضح</span></span></div>
+          <div class="transform-item"><div class="transform-item-icon">💸</div><span class="transform-item-text"><span class="lang-en">High operational costs and slow growth</span><span class="lang-ar">تكاليف تشغيلية مرتفعة مع نمو بطيء</span></span></div>
+          <div class="transform-item"><div class="transform-item-icon">🔋</div><span class="transform-item-text"><span class="lang-en">Mental energy wasted on low-value tasks</span><span class="lang-ar">طاقة ذهنية مستنزفة في مهام منخفضة القيمة</span></span></div>
+        </div>
+      </div>
+
+      <div class="transform-arrow reveal"><div class="arrow-circle">⚡</div></div>
+
+      <div class="transform-col after reveal">
+        <div class="transform-label">✅ <span class="lang-en">After AI</span><span class="lang-ar">بعد الذكاء الاصطناعي</span></div>
+        <div class="transform-items">
+          <div class="transform-item"><div class="transform-item-icon">🤖</div><span class="transform-item-text"><span class="lang-en">AI-powered automation running 24/7 without interruption</span><span class="lang-ar">أتمتة ذكية تعمل على مدار الساعة دون توقف</span></span></div>
+          <div class="transform-item"><div class="transform-item-icon">⚡</div><span class="transform-item-text"><span class="lang-en">Fast, consistent, high-quality content on demand</span><span class="lang-ar">محتوى سريع ومتسق وعالي الجودة عند الطلب</span></span></div>
+          <div class="transform-item"><div class="transform-item-icon">🏗️</div><span class="transform-item-text"><span class="lang-en">Structured smart workflows with measurable outcomes</span><span class="lang-ar">سير عمل ذكي ومنظم بنتائج قابلة للقياس</span></span></div>
+          <div class="transform-item"><div class="transform-item-icon">📈</div><span class="transform-item-text"><span class="lang-en">Reduced costs, accelerated growth and expansion</span><span class="lang-ar">تكاليف مخفضة ونمو متسارع وتوسع في السوق</span></span></div>
+          <div class="transform-item"><div class="transform-item-icon">🎯</div><span class="transform-item-text"><span class="lang-en">Full focus on strategy, vision, and high-impact decisions</span><span class="lang-ar">تركيز كامل على الاستراتيجية والرؤية والقرارات الكبرى</span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<!-- ============================================================ 5. FRAMEWORK -->
+<section id="framework">
+  <div class="container">
+    <div class="badge reveal" style="margin:0 auto 16px;">
+      <span class="badge-dot"></span>
+      <span class="lang-en">My Proprietary System</span><span class="lang-ar">المنهجية الخاصة بي</span>
+    </div>
+    <h2 class="section-title reveal">
+      <span class="lang-en">AI Business <span class="highlight">Simplification System</span></span>
+      <span class="lang-ar">نظام <span class="highlight">تبسيط الأعمال</span> بالذكاء الاصطناعي</span>
+    </h2>
+    <p class="section-subtitle reveal" style="margin:0 auto;text-align:center;">
+      <span class="lang-en">A proven 5-step proprietary framework that transforms any business with AI — fast, practical, and measurable.</span>
+      <span class="lang-ar">منهجية خاصة مجربة من 5 خطوات تحوّل أي مشروع بالذكاء الاصطناعي — بسرعة وعملية وقابلية للقياس.</span>
+    </p>
+
+    <div class="framework-steps">
+      <div class="framework-step reveal reveal-delay-1">
+        <div class="step-number">1</div><div class="step-icon">🔍</div>
+        <div class="step-title"><span class="lang-en">Analyze Business</span><span class="lang-ar">تحليل المشروع</span></div>
+        <div class="step-desc"><span class="lang-en">Deep dive into current operations</span><span class="lang-ar">تحليل عميق لعملياتك الحالية</span></div>
+      </div>
+      <div class="framework-step reveal reveal-delay-2">
+        <div class="step-number">2</div><div class="step-icon">📋</div>
+        <div class="step-title"><span class="lang-en">Identify Repetitive Tasks</span><span class="lang-ar">تحديد المهام المتكررة</span></div>
+        <div class="step-desc"><span class="lang-en">Map tasks ready for automation</span><span class="lang-ar">رسم خارطة المهام الجاهزة للأتمتة</span></div>
+      </div>
+      <div class="framework-step reveal reveal-delay-3">
+        <div class="step-number">3</div><div class="step-icon">🤖</div>
+        <div class="step-title"><span class="lang-en">Apply AI Tools</span><span class="lang-ar">تطبيق أدوات الذكاء الاصطناعي</span></div>
+        <div class="step-desc"><span class="lang-en">Select &amp; deploy the right AI solutions</span><span class="lang-ar">اختيار ونشر حلول الذكاء المناسبة</span></div>
+      </div>
+      <div class="framework-step reveal reveal-delay-4">
+        <div class="step-number">4</div><div class="step-icon">⚡</div>
+        <div class="step-title"><span class="lang-en">Automate Workflows</span><span class="lang-ar">أتمتة العمليات</span></div>
+        <div class="step-desc"><span class="lang-en">Build systems that run on autopilot</span><span class="lang-ar">بناء أنظمة تعمل بشكل تلقائي</span></div>
+      </div>
+      <div class="framework-step reveal reveal-delay-5">
+        <div class="step-number">5</div><div class="step-icon">🎓</div>
+        <div class="step-title"><span class="lang-en">Train the User</span><span class="lang-ar">تدريب المستخدم</span></div>
+        <div class="step-desc"><span class="lang-en">Empower your team for independence</span><span class="lang-ar">تمكين فريقك من الاستقلالية</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<!-- ============================================================ 6. PROOF -->
+<section id="proof">
+  <div class="container">
+    <div class="badge reveal" style="margin:0 auto 16px;">
+      <span class="badge-dot"></span>
+      <span class="lang-en">Client Success Stories</span><span class="lang-ar">قصص نجاح العملاء</span>
+    </div>
+    <h2 class="section-title reveal">
+      <span class="lang-en">Real Results, <span class="highlight">Real Businesses</span></span>
+      <span class="lang-ar">نتائج حقيقية، <span class="highlight">أعمال حقيقية</span></span>
+    </h2>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text"><span class="lang-en">Ahmad transformed how we run our e-commerce business. We went from 20 hours a week on content to just 2 hours — his AI systems do everything automatically.</span><span class="lang-ar">أحمد حوّل طريقة إدارتنا لمتجرنا الإلكتروني. انتقلنا من 20 ساعة أسبوعيًا على المحتوى إلى ساعتين فقط — أنظمته تفعل كل شيء تلقائيًا.</span></p>
+        <div class="testimonial-author">
+          <div class="author-avatar">S</div>
+          <div>
+            <span class="author-name"><span class="lang-en">Sara Al-Hassan</span><span class="lang-ar">سارة الحسن</span></span>
+            <span class="author-role"><span class="lang-en">E-commerce Founder</span><span class="lang-ar">مؤسسة متجر إلكتروني</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text"><span class="lang-en">The prompt engineering workshop was a game-changer. I now work with AI 10x more effectively. My productivity has skyrocketed and my business has never been better.</span><span class="lang-ar">كانت ورشة هندسة الأوامر نقطة تحوّل كاملة. أعمل الآن مع الذكاء الاصطناعي بفعالية أكبر 10 مرات. إنتاجيتي قفزت وأعمالي في أفضل حال.</span></p>
+        <div class="testimonial-author">
+          <div class="author-avatar">M</div>
+          <div>
+            <span class="author-name"><span class="lang-en">Mohammed Al-Rashid</span><span class="lang-ar">محمد الراشد</span></span>
+            <span class="author-role"><span class="lang-en">Marketing Agency Owner</span><span class="lang-ar">صاحب وكالة تسويق</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-3">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text"><span class="lang-en">I was skeptical, but Ahmad's approach is so practical. Within 3 weeks, we automated 60% of our customer support — incredible ROI.</span><span class="lang-ar">كنت متشككًا في البداية، لكن نهج أحمد عملي للغاية. في 3 أسابيع، أتمتنا 60% من دعم عملائنا — عائد استثمار مذهل.</span></p>
+        <div class="testimonial-author">
+          <div class="author-avatar">K</div>
+          <div>
+            <span class="author-name"><span class="lang-en">Khalid Al-Mansouri</span><span class="lang-ar">خالد المنصوري</span></span>
+            <span class="author-role"><span class="lang-en">SaaS Startup Founder</span><span class="lang-ar">مؤسس شركة ناشئة</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proof-stats">
+      <div class="proof-stat reveal reveal-delay-1">
+        <span class="proof-stat-num" data-target="200">200+</span>
+        <span class="proof-stat-label"><span class="lang-en">Entrepreneurs Trained</span><span class="lang-ar">رائد أعمال مدرَّب</span></span>
+      </div>
+      <div class="proof-stat reveal reveal-delay-2">
+        <span class="proof-stat-num" data-target="50">50+</span>
+        <span class="proof-stat-label"><span class="lang-en">AI Systems Built</span><span class="lang-ar">نظام ذكاء اصطناعي مبني</span></span>
+      </div>
+      <div class="proof-stat reveal reveal-delay-3">
+        <span class="proof-stat-num" data-target="30">30+</span>
+        <span class="proof-stat-label"><span class="lang-en">Workshops Delivered</span><span class="lang-ar">ورشة عمل مُقدَّمة</span></span>
+      </div>
+      <div class="proof-stat reveal reveal-delay-4">
+        <span class="proof-stat-num" data-target="98">98%</span>
+        <span class="proof-stat-label"><span class="lang-en">Client Satisfaction</span><span class="lang-ar">رضا العملاء</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<!-- ============================================================ 7. CTA -->
+<section id="cta">
+  <div class="cta-bg-glow"></div>
+  <div class="container">
+    <div class="cta-inner reveal">
+      <div class="cta-tag"><span class="lang-en">Ready to Transform?</span><span class="lang-ar">مستعد للتحوّل؟</span></div>
+
+      <h2 class="cta-title">
+        <span class="lang-en">If you run a business, AI is no longer optional —<br>it is your <span style="background:var(--grad-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">competitive advantage</span></span>
+        <span class="lang-ar">إذا كنت صاحب مشروع، الذكاء الاصطناعي لم يعد خيارًا<br>بل أصبح <span style="background:var(--grad-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">ميزتك التنافسية</span></span>
+      </h2>
+
+      <p class="cta-subtitle">
+        <span class="lang-en">Stop watching competitors get ahead with AI. Start your transformation today with a personalized strategy session.</span>
+        <span class="lang-ar">توقف عن مشاهدة منافسيك يتقدمون. ابدأ تحوّلك اليوم بجلسة استراتيجية مخصصة لمشروعك.</span>
+      </p>
+
+      <div class="cta-buttons">
+        <a href="mailto:ahmad@urabi.ai" class="btn-primary">
+          <span>📅</span>
+          <span class="lang-en">Book Strategy Call</span><span class="lang-ar">احجز جلسة استشارية</span>
+        </a>
+        <a href="#services" class="btn-secondary">
+          <span>🎓</span>
+          <span class="lang-en">Join Training</span><span class="lang-ar">انضم للورشات</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 8. FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">Ahmad Urabi</span>
+        <p class="footer-tagline">
+          <span class="lang-en">AI Engineer &amp; Educator helping entrepreneurs transform their businesses with Artificial Intelligence.</span>
+          <span class="lang-ar">مهندس ومدرب ذكاء اصطناعي يساعد رواد الأعمال على تحويل أعمالهم بالذكاء الاصطناعي.</span>
+        </p>
+        <a href="mailto:info@urabi-code.com" class="footer-email">📧 info@urabi-code.com</a>
+        <div class="footer-social">
+          <a href="#" class="social-btn" title="LinkedIn">in</a>
+          <a href="#" class="social-btn" title="X / Twitter">𝕏</a>
+          <a href="#" class="social-btn" title="YouTube">▶</a>
+          <a href="#" class="social-btn" title="Instagram">📷</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title"><span class="lang-en">Navigation</span><span class="lang-ar">التنقل</span></div>
+        <ul class="footer-links">
+          <li><a href="#about"><span class="lang-en">About</span><span class="lang-ar">عن أحمد</span></a></li>
+          <li><a href="#services"><span class="lang-en">Services</span><span class="lang-ar">الخدمات</span></a></li>
+          <li><a href="#transformation"><span class="lang-en">Transformation</span><span class="lang-ar">التحوّل</span></a></li>
+          <li><a href="#framework"><span class="lang-en">Framework</span><span class="lang-ar">المنهجية</span></a></li>
+          <li><a href="#proof"><span class="lang-en">Testimonials</span><span class="lang-ar">الشهادات</span></a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title"><span class="lang-en">Services</span><span class="lang-ar">الخدمات</span></div>
+        <ul class="footer-links">
+          <li><a href="#services"><span class="lang-en">AI Workshops</span><span class="lang-ar">ورش الذكاء الاصطناعي</span></a></li>
+          <li><a href="#services"><span class="lang-en">Automation Consulting</span><span class="lang-ar">استشارات الأتمتة</span></a></li>
+          <li><a href="#services"><span class="lang-en">Prompt Engineering</span><span class="lang-ar">هندسة الأوامر</span></a></li>
+          <li><a href="#services"><span class="lang-en">AI Content Systems</span><span class="lang-ar">أنظمة المحتوى الذكي</span></a></li>
+          <li><a href="#cta"><span class="lang-en">Book Consultation</span><span class="lang-ar">احجز استشارة</span></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>
+        © 2026 Ahmad Urabi
+        <span class="footer-dot"></span>
+        <span class="lang-en">All rights reserved @2026</span>
+        <span class="lang-ar">جميع الحقوق محفوظة @2026
+        </span>
+      </span>
+      <span>
+        <span class="lang-en">Powered by Artificial Intelligence</span>
+        <span class="lang-ar">مدعوم بالذكاء الاصطناعي</span>
+        <span style="color:var(--red-glow);margin-left:4px;">✦</span>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================ JAVASCRIPT -->
+<script>
+/* ── Language ── */
+function setLang(lang){
+  const body=document.body,html=document.documentElement;
+  if(lang==='ar'){
+    body.classList.add('ar');html.setAttribute('lang','ar');html.setAttribute('dir','rtl');
+    document.getElementById('btnEN').classList.remove('active');
+    document.getElementById('btnAR').classList.add('active');
+    localStorage.setItem('lang','ar');
+  } else {
+    body.classList.remove('ar');html.setAttribute('lang','en');html.setAttribute('dir','ltr');
+    document.getElementById('btnEN').classList.add('active');
+    document.getElementById('btnAR').classList.remove('active');
+    localStorage.setItem('lang','en');
+  }
+}
+(function(){const s=localStorage.getItem('lang');if(s==='ar')setLang('ar');})();
+
+/* ── Mobile Menu ── */
+function openMobileMenu(){document.getElementById('mobileMenu').classList.add('open');}
+function closeMobileMenu(){document.getElementById('mobileMenu').classList.remove('open');}
+
+/* ── Navbar ── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+});
+
+/* ── Cursor Glow ── */
+const cg=document.getElementById('cursorGlow');
+document.addEventListener('mousemove',e=>{cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px';});
+
+/* ── Scroll Reveal ── */
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* ── Smooth Anchors ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+  });
+});
+
+/* ── 3D Card Tilt ── */
+document.querySelectorAll('.service-card,.testimonial-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(900px) rotateX(${-y*7}deg) rotateY(${x*7}deg) translateY(-8px)`;
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transition='transform .5s cubic-bezier(.23,1,.32,1)';
+    card.style.transform='';
+    setTimeout(()=>card.style.transition='',500);
+  });
+});
+
+/* ── Counter Animation ── */
+function animateCount(el,target,suffix,dur=1800){
+  let v=0;const step=target/(dur/16);
+  const t=setInterval(()=>{
+    v+=step;if(v>=target){v=target;clearInterval(t);}
+    el.textContent=Math.floor(v)+suffix;
+  },16);
+}
+const co=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const el=e.target,raw=el.textContent;
+    const n=parseInt(raw),suf=raw.includes('%')?'%':'+';
+    animateCount(el,n,suf);co.unobserve(el);
+  });
+},{threshold:.6});
+document.querySelectorAll('.proof-stat-num,.hero-stat-num').forEach(el=>co.observe(el));
+
+/* ── THREE.JS Neural Network (Crimson palette) ── */
+(function(){
+  const canvas=document.getElementById('neural-canvas');
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+
+  const scene=new THREE.Scene();
+  const cam=new THREE.PerspectiveCamera(70,window.innerWidth/window.innerHeight,0.1,1000);
+  cam.position.z=32;
+
+  const COUNT=window.innerWidth<768?60:140;
+  const pos=new Float32Array(COUNT*3);
+  const vel=[];
+
+  for(let i=0;i<COUNT;i++){
+    const x=(Math.random()-.5)*80,y=(Math.random()-.5)*55,z=(Math.random()-.5)*32;
+    pos[i*3]=x;pos[i*3+1]=y;pos[i*3+2]=z;
+    vel.push({x,y,z,vx:(Math.random()-.5)*.025,vy:(Math.random()-.5)*.017,vz:(Math.random()-.5)*.01});
+  }
+
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+
+  /* Mix of crimson and amber particles */
+  const mat=new THREE.PointsMaterial({color:0xC41230,size:.15,transparent:true,opacity:.65,sizeAttenuation:true});
+  const pts=new THREE.Points(geo,mat);
+  scene.add(pts);
+
+  /* Amber accent particles */
+  const geo2=new THREE.BufferGeometry();
+  const pos2=new Float32Array(30*3);
+  const vel2=[];
+  for(let i=0;i<30;i++){
+    const x=(Math.random()-.5)*70,y=(Math.random()-.5)*48,z=(Math.random()-.5)*28;
+    pos2[i*3]=x;pos2[i*3+1]=y;pos2[i*3+2]=z;
+    vel2.push({x,y,z,vx:(Math.random()-.5)*.02,vy:(Math.random()-.5)*.014,vz:(Math.random()-.5)*.009});
+  }
+  geo2.setAttribute('position',new THREE.BufferAttribute(pos2,3));
+  const mat2=new THREE.PointsMaterial({color:0xE8853A,size:.12,transparent:true,opacity:.4,sizeAttenuation:true});
+  const pts2=new THREE.Points(geo2,mat2);
+  scene.add(pts2);
+
+  let lines=[];
+  const THRESH=12;
+
+  function buildLines(){
+    lines.forEach(l=>scene.remove(l));lines=[];
+    const p=geo.attributes.position.array;
+    for(let i=0;i<COUNT;i++){
+      for(let j=i+1;j<COUNT;j++){
+        const dx=p[i*3]-p[j*3],dy=p[i*3+1]-p[j*3+1],dz=p[i*3+2]-p[j*3+2];
+        const d=Math.sqrt(dx*dx+dy*dy+dz*dz);
+        if(d<THRESH){
+          const g=new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(p[i*3],p[i*3+1],p[i*3+2]),
+            new THREE.Vector3(p[j*3],p[j*3+1],p[j*3+2])
+          ]);
+          const l2=new THREE.Line(g,new THREE.LineBasicMaterial({
+            color:0xC41230,transparent:true,opacity:(1-d/THRESH)*.14
+          }));
+          scene.add(l2);lines.push(l2);
+        }
+      }
+    }
+  }
+
+  /* Glowing orbs */
+  const orbs=[];
+  const orbColors=[0xC41230,0xE8853A,0x8B0D22];
+  for(let i=0;i<5;i++){
+    const m=new THREE.Mesh(
+      new THREE.SphereGeometry(.32,12,12),
+      new THREE.MeshBasicMaterial({color:orbColors[i%3],transparent:true,opacity:.1})
+    );
+    m.position.set((Math.random()-.5)*55,(Math.random()-.5)*38,(Math.random()-.5)*16);
+    m.userData={sp:Math.random()*.004+.001,ph:Math.random()*Math.PI*2};
+    scene.add(m);orbs.push(m);
+  }
+
+  let frame=0;let mouse={x:0,y:0};
+  document.addEventListener('mousemove',e=>{mouse.x=(e.clientX/window.innerWidth-.5)*.22;mouse.y=-(e.clientY/window.innerHeight-.5)*.16;});
+
+  function tick(){
+    requestAnimationFrame(tick);frame++;
+    const p=geo.attributes.position.array;
+    const p2=geo2.attributes.position.array;
+
+    for(let i=0;i<COUNT;i++){
+      vel[i].x+=vel[i].vx;vel[i].y+=vel[i].vy;vel[i].z+=vel[i].vz;
+      if(Math.abs(vel[i].x)>40)vel[i].vx*=-1;
+      if(Math.abs(vel[i].y)>27)vel[i].vy*=-1;
+      if(Math.abs(vel[i].z)>16)vel[i].vz*=-1;
+      p[i*3]=vel[i].x;p[i*3+1]=vel[i].y;p[i*3+2]=vel[i].z;
+    }
+    geo.attributes.position.needsUpdate=true;
+
+    for(let i=0;i<30;i++){
+      vel2[i].x+=vel2[i].vx;vel2[i].y+=vel2[i].vy;vel2[i].z+=vel2[i].vz;
+      if(Math.abs(vel2[i].x)>35)vel2[i].vx*=-1;
+      if(Math.abs(vel2[i].y)>24)vel2[i].vy*=-1;
+      if(Math.abs(vel2[i].z)>14)vel2[i].vz*=-1;
+      p2[i*3]=vel2[i].x;p2[i*3+1]=vel2[i].y;p2[i*3+2]=vel2[i].z;
+    }
+    geo2.attributes.position.needsUpdate=true;
+
+    if(frame%3===0)buildLines();
+
+    orbs.forEach(o=>{
+      o.material.opacity=.06+Math.sin(frame*o.userData.sp+o.userData.ph)*.06;
+      o.scale.setScalar(1+Math.sin(frame*o.userData.sp*1.3)*.13);
+    });
+
+    cam.position.x+=(mouse.x*4-cam.position.x)*.02;
+    cam.position.y+=(mouse.y*3-cam.position.y)*.02;
+    cam.lookAt(scene.position);
+    pts.rotation.y+=.0007;pts.rotation.x+=.0003;
+    pts2.rotation.y-=.0005;
+
+    renderer.render(scene,cam);
+  }
+  tick();buildLines();
+
+  window.addEventListener('resize',()=>{
+    cam.aspect=window.innerWidth/window.innerHeight;
+    cam.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth,window.innerHeight);
+  });
+})();
+</script>
 </body>
 </html>
-
