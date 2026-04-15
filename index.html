@@ -1041,6 +1041,9 @@ body.ar .footer-tagline{line-height:1.85;}
   .lang-toggle{flex-shrink:0;}
   .lang-btn{padding:4px 10px;font-size:0.7rem;}
 
+  /* Hide duplicate badge under photo — already visible inside the name badge on the photo */
+  .hero-badge{display:none;}
+
   /* hero */
   #hero{padding:90px 5% 60px;gap:32px;}
   .hero-photo-frame{width:240px;}
@@ -1083,6 +1086,8 @@ body.ar .footer-tagline{line-height:1.85;}
 @media(max-width:480px){
   #hero{padding:80px 4% 50px;}
   .hero-photo-frame{width:200px;}
+  /* Fix duplicate badge: hide the text badge on mobile since photo badge already shows it */
+  .hero-badge{display:none;}
   .hero-buttons{flex-direction:column;align-items:center;width:100%;}
   .hero-buttons .btn-primary,
   .hero-buttons .btn-secondary{width:100%;justify-content:center;}
@@ -1100,6 +1105,222 @@ body.ar .footer-tagline{line-height:1.85;}
 
   .section-title{font-size:clamp(1.55rem,6vw,2.1rem);}
   .section-subtitle{font-size:0.9rem;}
+
+  /* Contact form full width on mobile */
+  .contact-grid{grid-template-columns:1fr;}
+  .contact-form-group-row{grid-template-columns:1fr;}
+}
+
+/* =====================================================
+   9. CONTACT SECTION
+===================================================== */
+#contact{padding:120px 5%;position:relative;overflow:hidden;}
+
+.contact-glow-1{
+  position:absolute;top:-100px;right:-100px;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(196,18,48,0.08),transparent 70%);
+  pointer-events:none;
+}
+.contact-glow-2{
+  position:absolute;bottom:-100px;left:-100px;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,133,58,0.05),transparent 70%);
+  pointer-events:none;
+}
+
+.contact-grid{
+  display:grid;
+  grid-template-columns:1fr 1.4fr;
+  gap:60px;align-items:start;
+  margin-top:56px;
+}
+
+/* Left info col */
+.contact-info{}
+
+.contact-info-title{
+  font-size:1.5rem;font-weight:800;
+  color:var(--white);margin-bottom:14px;
+  line-height:1.3;letter-spacing:-0.3px;
+}
+body.ar .contact-info-title{letter-spacing:0;line-height:1.45;}
+
+.contact-info-desc{
+  font-size:0.92rem;color:var(--white-60);
+  line-height:1.8;margin-bottom:36px;
+}
+body.ar .contact-info-desc{line-height:2;}
+
+.contact-methods{display:flex;flex-direction:column;gap:16px;margin-bottom:36px;}
+
+.contact-method{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 20px;
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-lg);
+  text-decoration:none;
+  transition:var(--transition);
+  backdrop-filter:blur(12px);
+}
+body.ar .contact-method{flex-direction:row-reverse;}
+.contact-method:hover{
+  border-color:var(--border-brand);
+  background:rgba(196,18,48,0.06);
+  transform:translateX(6px);
+  box-shadow:var(--shadow-brand);
+}
+body.ar .contact-method:hover{transform:translateX(-6px);}
+
+.contact-method-icon{
+  width:44px;height:44px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(196,18,48,0.18),rgba(232,133,58,0.1));
+  border:1px solid rgba(196,18,48,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;flex-shrink:0;
+}
+.contact-method-label{
+  font-size:0.7rem;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--white-30);display:block;margin-bottom:3px;
+}
+.contact-method-value{
+  font-size:0.9rem;font-weight:600;color:var(--white);
+}
+
+.contact-social-title{
+  font-size:0.72rem;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--white-30);margin-bottom:14px;
+}
+.contact-social-row{display:flex;gap:10px;}
+.contact-social-btn{
+  width:42px;height:42px;border-radius:12px;
+  background:var(--white-05);
+  border:1px solid var(--border-subtle);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.95rem;color:var(--white-60);
+  text-decoration:none;transition:var(--transition);
+}
+.contact-social-btn:hover{
+  background:rgba(196,18,48,0.12);
+  border-color:var(--border-brand);
+  color:var(--red-glow);
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(196,18,48,0.2);
+}
+
+/* Right form col */
+.contact-form-card{
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-xl);
+  padding:40px 36px;
+  backdrop-filter:blur(16px);
+  position:relative;
+  overflow:hidden;
+}
+.contact-form-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--red-brand),transparent);
+}
+
+.contact-form-group-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  margin-bottom:16px;
+}
+.contact-form-group{margin-bottom:16px;}
+.contact-form-group:last-of-type{margin-bottom:0;}
+
+.form-label{
+  display:block;
+  font-size:0.74rem;font-weight:700;
+  letter-spacing:0.8px;text-transform:uppercase;
+  color:var(--white-60);margin-bottom:8px;
+}
+
+.form-input,
+.form-select,
+.form-textarea{
+  width:100%;
+  padding:13px 16px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-sm);
+  color:var(--white);
+  font-size:0.9rem;
+  font-family:inherit;
+  transition:var(--transition);
+  outline:none;
+  appearance:none;
+  -webkit-appearance:none;
+}
+body.ar .form-input,
+body.ar .form-select,
+body.ar .form-textarea{text-align:right;}
+
+.form-input::placeholder,
+.form-textarea::placeholder{color:var(--white-30);}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus{
+  border-color:var(--red-brand);
+  background:rgba(196,18,48,0.05);
+  box-shadow:0 0 0 3px rgba(196,18,48,0.12);
+}
+
+.form-select{
+  cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C41230' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  padding-right:40px;
+}
+body.ar .form-select{
+  background-position:left 14px center;
+  padding-right:16px;padding-left:40px;
+}
+
+.form-textarea{resize:vertical;min-height:110px;line-height:1.6;}
+
+.form-submit{
+  width:100%;margin-top:20px;
+  padding:15px;
+  background:var(--grad-brand);
+  color:var(--white);
+  border:none;border-radius:var(--radius-pill);
+  font-size:1rem;font-weight:700;
+  cursor:pointer;font-family:inherit;
+  transition:var(--transition);
+  box-shadow:0 0 28px rgba(196,18,48,0.32);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.form-submit:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 50px rgba(196,18,48,0.55);
+}
+.form-submit:active{transform:translateY(0);}
+
+/* Success state */
+.form-success{
+  display:none;
+  text-align:center;padding:32px 20px;
+}
+.form-success.show{display:block;}
+.form-success-icon{font-size:3rem;margin-bottom:12px;}
+.form-success-title{
+  font-size:1.2rem;font-weight:700;
+  color:var(--white);margin-bottom:8px;
+}
+.form-success-text{font-size:0.88rem;color:var(--white-60);line-height:1.7;}
+
+/* Responsive contact */
+@media(max-width:900px){
+  .contact-grid{grid-template-columns:1fr;gap:40px;}
+  .contact-form-card{padding:32px 24px;}
 }
 </style>
 </head>
@@ -1115,6 +1336,7 @@ body.ar .footer-tagline{line-height:1.85;}
   <a href="#services"       onclick="closeMobileMenu()"><span class="lang-en">Services</span><span class="lang-ar">الخدمات</span></a>
   <a href="#framework"      onclick="closeMobileMenu()"><span class="lang-en">Framework</span><span class="lang-ar">المنهجية</span></a>
   <a href="#proof"          onclick="closeMobileMenu()"><span class="lang-en">Testimonials</span><span class="lang-ar">الشهادات</span></a>
+  <a href="#contact"        onclick="closeMobileMenu()"><span class="lang-en">Contact</span><span class="lang-ar">تواصل معي</span></a>
   <a href="#cta" class="btn-primary" style="margin-top:14px" onclick="closeMobileMenu()">
     <span class="lang-en">Book Consultation</span><span class="lang-ar">احجز استشارة</span>
   </a>
@@ -1133,6 +1355,7 @@ body.ar .footer-tagline{line-height:1.85;}
     <li><a href="#transformation"><span class="lang-en">Transformation</span><span class="lang-ar">التحوّل</span></a></li>
     <li><a href="#framework"><span class="lang-en">Framework</span><span class="lang-ar">المنهجية</span></a></li>
     <li><a href="#proof"><span class="lang-en">Proof</span><span class="lang-ar">الشهادات</span></a></li>
+    <li><a href="#contact"><span class="lang-en">Contact</span><span class="lang-ar">تواصل</span></a></li>
   </ul>
 
   <div class="nav-right">
@@ -1571,6 +1794,151 @@ body.ar .footer-tagline{line-height:1.85;}
   </div>
 </section>
 
+<!-- ============================================================ 9. CONTACT ME -->
+<div class="gradient-line"></div>
+
+<section id="contact">
+  <div class="contact-glow-1"></div>
+  <div class="contact-glow-2"></div>
+  <div class="container">
+
+    <div style="text-align:center;">
+      <div class="badge reveal" style="margin:0 auto 16px;">
+        <span class="badge-dot"></span>
+        <span class="lang-en">Get In Touch</span>
+        <span class="lang-ar">تواصل معي</span>
+      </div>
+      <h2 class="section-title reveal">
+        <span class="lang-en">Let's Build Something <span class="highlight">Powerful Together</span></span>
+        <span class="lang-ar">لنبني شيئًا <span class="highlight">استثنائيًا معًا</span></span>
+      </h2>
+      <p class="section-subtitle reveal" style="margin:0 auto;">
+        <span class="lang-en">Ready to transform your business with AI? Send me a message and I'll get back to you within 24 hours.</span>
+        <span class="lang-ar">هل أنت مستعد لتحويل أعمالك بالذكاء الاصطناعي؟ أرسل لي رسالة وسأرد عليك خلال 24 ساعة.</span>
+      </p>
+    </div>
+
+    <div class="contact-grid">
+
+      <!-- Left: Info -->
+      <div class="contact-info reveal">
+
+        <h3 class="contact-info-title">
+          <span class="lang-en">Start Your AI Transformation Today</span>
+          <span class="lang-ar">ابدأ تحوّلك بالذكاء الاصطناعي اليوم</span>
+        </h3>
+        <p class="contact-info-desc">
+          <span class="lang-en">Whether you need a strategy session, a custom AI workshop, or help automating your business — I'm here to help you take the next step.</span>
+          <span class="lang-ar">سواء كنت تحتاج جلسة استراتيجية أو ورشة ذكاء اصطناعي مخصصة أو مساعدة في أتمتة أعمالك — أنا هنا لمساعدتك على اتخاذ الخطوة التالية.</span>
+        </p>
+
+        <div class="contact-methods">
+          <a href="mailto:ahmad@urabi.ai" class="contact-method">
+            <div class="contact-method-icon">📧</div>
+            <div>
+              <span class="contact-method-label"><span class="lang-en">Email</span><span class="lang-ar">البريد الإلكتروني</span></span>
+              <span class="contact-method-value">ahmad@urabi.ai</span>
+            </div>
+          </a>
+          <a href="https://wa.me/your-number" class="contact-method" target="_blank">
+            <div class="contact-method-icon">💬</div>
+            <div>
+              <span class="contact-method-label"><span class="lang-en">WhatsApp</span><span class="lang-ar">واتساب</span></span>
+              <span class="contact-method-value"><span class="lang-en">Chat directly</span><span class="lang-ar">تحدث مباشرة</span></span>
+            </div>
+          </a>
+          <a href="#" class="contact-method" target="_blank">
+            <div class="contact-method-icon">💼</div>
+            <div>
+              <span class="contact-method-label">LinkedIn</span>
+              <span class="contact-method-value">Ahmad Urabi</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="contact-social-title">
+          <span class="lang-en">Follow Me</span>
+          <span class="lang-ar">تابعني</span>
+        </div>
+        <div class="contact-social-row">
+          <a href="#" class="contact-social-btn" title="X / Twitter">𝕏</a>
+          <a href="#" class="contact-social-btn" title="Instagram">📷</a>
+          <a href="#" class="contact-social-btn" title="YouTube">▶</a>
+          <a href="#" class="contact-social-btn" title="LinkedIn">in</a>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <div class="contact-form-card reveal reveal-delay-2">
+
+        <!-- Form -->
+        <form id="contactForm" onsubmit="handleFormSubmit(event)">
+
+          <div class="contact-form-group-row">
+            <div class="contact-form-group">
+              <label class="form-label"><span class="lang-en">First Name</span><span class="lang-ar">الاسم الأول</span></label>
+              <input class="form-input" type="text" required
+                placeholder="Ahmad" id="fieldFirst" />
+            </div>
+            <div class="contact-form-group">
+              <label class="form-label"><span class="lang-en">Last Name</span><span class="lang-ar">اسم العائلة</span></label>
+              <input class="form-input" type="text" required
+                placeholder="Urabi" id="fieldLast" />
+            </div>
+          </div>
+
+          <div class="contact-form-group">
+            <label class="form-label"><span class="lang-en">Email Address</span><span class="lang-ar">البريد الإلكتروني</span></label>
+            <input class="form-input" type="email" required
+              placeholder="you@example.com" id="fieldEmail" />
+          </div>
+
+          <div class="contact-form-group">
+            <label class="form-label"><span class="lang-en">I'm Interested In</span><span class="lang-ar">أنا مهتم بـ</span></label>
+            <select class="form-select" id="fieldService">
+              <option value="" disabled selected>
+                <!-- set by JS -->
+              </option>
+              <option value="workshop" data-en="AI Workshops" data-ar="ورش الذكاء الاصطناعي">AI Workshops / ورش الذكاء الاصطناعي</option>
+              <option value="automation" data-en="Business Automation" data-ar="أتمتة الأعمال">Business Automation / أتمتة الأعمال</option>
+              <option value="prompt" data-en="Prompt Engineering" data-ar="هندسة الأوامر">Prompt Engineering / هندسة الأوامر</option>
+              <option value="content" data-en="AI Content Systems" data-ar="أنظمة المحتوى">AI Content Systems / أنظمة المحتوى</option>
+              <option value="consultation" data-en="Strategy Consultation" data-ar="استشارة استراتيجية">Strategy Consultation / استشارة استراتيجية</option>
+            </select>
+          </div>
+
+          <div class="contact-form-group">
+            <label class="form-label"><span class="lang-en">Message</span><span class="lang-ar">الرسالة</span></label>
+            <textarea class="form-textarea" required id="fieldMsg"
+              placeholder="Tell me about your business and what you'd like to achieve with AI..."></textarea>
+          </div>
+
+          <button type="submit" class="form-submit">
+            <span>🚀</span>
+            <span class="lang-en">Send Message</span>
+            <span class="lang-ar">إرسال الرسالة</span>
+          </button>
+
+        </form>
+
+        <!-- Success state -->
+        <div class="form-success" id="formSuccess">
+          <div class="form-success-icon">✅</div>
+          <div class="form-success-title">
+            <span class="lang-en">Message Sent!</span>
+            <span class="lang-ar">تم إرسال رسالتك!</span>
+          </div>
+          <p class="form-success-text">
+            <span class="lang-en">Thank you! I'll get back to you within 24 hours.</span>
+            <span class="lang-ar">شكرًا لك! سأتواصل معك خلال 24 ساعة.</span>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============================================================ 8. FOOTER -->
 <footer>
   <div class="container">
@@ -1622,7 +1990,9 @@ body.ar .footer-tagline{line-height:1.85;}
         </span>
       </span>
       <span>
-         <span style="color:var(--red-glow);margin-left:4px;">✦</span>
+        <span class="lang-en">Powered by Artificial Intelligence</span>
+        <span class="lang-ar">مدعوم بالذكاء الاصطناعي</span>
+        <span style="color:var(--red-glow);margin-left:4px;">✦</span>
       </span>
     </div>
   </div>
@@ -1836,6 +2206,34 @@ document.querySelectorAll('.proof-stat-num,.hero-stat-num').forEach(el=>co.obser
     renderer.setSize(window.innerWidth,window.innerHeight);
   });
 })();
+
+/* ── Contact Form ── */
+function handleFormSubmit(e){
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = '⏳';
+  btn.disabled = true;
+  // Simulate sending (replace with real API call)
+  setTimeout(()=>{
+    document.getElementById('contactForm').style.display = 'none';
+    const success = document.getElementById('formSuccess');
+    success.classList.add('show');
+  }, 1200);
+}
+
+/* ── Select placeholder by language ── */
+function updateSelectPlaceholder(){
+  const sel = document.getElementById('fieldService');
+  const isAr = document.body.classList.contains('ar');
+  sel.options[0].text = isAr ? '— اختر الخدمة —' : '— Select a service —';
+}
+// Patch setLang to also update select
+const _origSetLang = setLang;
+setLang = function(lang){
+  _origSetLang(lang);
+  updateSelectPlaceholder();
+};
+updateSelectPlaceholder();
 </script>
 </body>
 </html>
